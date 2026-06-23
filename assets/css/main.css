@@ -1,27 +1,57 @@
 /* ============================================================
    MÉTODO ANNABELL — Main Stylesheet
-   Paleta: Negro #0a0a0a | Dorado #C9A84C | Blanco #FFFFFF
+   Paleta: Negro #0A0A0A | Oro #D4AF37 | Blanco #FFFFFF — fuente: documents/SISTEMA_DISENO.md
+   Fuentes: Cinzel (display) · Oswald (titular) · Lato (cuerpo)
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Oswald:wght@500;600;700&family=Lato:wght@400;700&display=swap');
 
 /* ── Reset & Base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:      #0a0a0a;
-  --black-soft: #111111;
-  --black-card: #161616;
-  --gold:       #C9A84C;
-  --gold-light: #E8C97A;
-  --gold-dark:  #9A7A2E;
-  --white:      #FFFFFF;
-  --gray:       #888888;
-  --gray-light: #CCCCCC;
-  --font-head:  'Playfair Display', Georgia, serif;
-  --font-body:  'Inter', system-ui, sans-serif;
-  --max-w:      1100px;
-  --section-py: 5rem;
+  /* ── Tokens de marca — fuente: documents/SISTEMA_DISENO.md (el diseñador manda) ── */
+  --negro:        #0A0A0A;
+  --carbon:       #161616;
+  --carbon-2:     #2C2C2C;
+  --oro:          #D4AF37;
+  --oro-claro:    #E8D4A8;
+  --oro-profundo: #B8860B;
+  --blanco:       #FFFFFF;
+  --gris-texto:   #C9C9C9;
+  --grad-oro:     linear-gradient(180deg, #E8D4A8 0%, #D4AF37 45%, #B8860B 100%);
+
+  /* ── Alias legacy → mantienen funcionando el CSS existente ── */
+  --black:      var(--negro);
+  --black-soft: var(--carbon);    /* secciones alternas = carbón (§3 diseñador) */
+  --black-card: var(--carbon);
+  --gold:       var(--oro);
+  --gold-light: var(--oro-claro);
+  --gold-dark:  var(--oro-profundo);
+  --white:      var(--blanco);
+  --gray:       #8A8A8A;           /* gris atenuado (captions) — deriva, no es token de marca */
+  --gray-light: var(--gris-texto);
+
+  /* ── Tipografía — sistema de 3 niveles ── */
+  --font-display: 'Cinzel', Georgia, serif;                /* wordmark / frases elegantes */
+  --font-titular: 'Oswald', 'Arial Narrow', sans-serif;    /* H1/H2/H3 de impacto */
+  --font-cuerpo:  'Lato', Helvetica, Arial, sans-serif;    /* párrafos */
+  --font-head:    var(--font-titular);                     /* alias legacy → titulares */
+  --font-body:    var(--font-cuerpo);                      /* alias legacy → cuerpo */
+
+  /* ── Espaciado base 8px ── */
+  --space-1:  8px;
+  --space-2:  16px;
+  --space-3:  24px;
+  --space-4:  32px;
+  --space-6:  48px;
+  --space-8:  64px;
+  --space-12: 96px;
+
+  --max-w:      1140px;
+  --radius:     12px;
+  --radius-btn: 8px;
+  --section-py: 96px;
 }
 
 html { scroll-behavior: smooth; font-size: 16px; }
@@ -63,7 +93,7 @@ img { max-width: 100%; display: block; }
   font-size: .95rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: var(--radius-btn);
   cursor: pointer;
   transition: all .25s;
   border: 2px solid transparent;
@@ -122,6 +152,9 @@ body.admin-bar .site-nav { top: 32px; }
   letter-spacing: .12em;
 }
 .nav-logo span { color: var(--gold); }
+.logo-link { display: inline-flex; align-items: center; }
+.nav-logo-img { height: 60px; width: auto; display: block; }
+.footer-brand .nav-logo-img { height: 76px; margin-bottom: .8rem; }
 
 .nav-links {
   display: flex;
@@ -371,7 +404,7 @@ body.admin-bar .site-nav { top: 32px; }
 }
 
 .bio-quote {
-  font-family: var(--font-head);
+  font-family: var(--font-display);
   font-size: 1.3rem;
   font-style: italic;
   color: var(--gold-light);
@@ -400,7 +433,7 @@ body.admin-bar .site-nav { top: 32px; }
 .acronym-card {
   background: var(--black-card);
   border: 1px solid rgba(201,168,76,.1);
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 1.5rem;
   transition: border-color .25s, transform .25s;
 }
@@ -452,7 +485,7 @@ body.admin-bar .site-nav { top: 32px; }
   padding: 1.8rem;
   background: var(--black-card);
   border: 1px solid rgba(255,255,255,.06);
-  border-radius: 6px;
+  border-radius: var(--radius);
   transition: border-color .25s;
 }
 
@@ -569,7 +602,7 @@ body.admin-bar .site-nav { top: 32px; }
 .precio-card {
   background: var(--black-card);
   border: 1px solid rgba(255,255,255,.06);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 1.8rem;
   position: relative;
   transition: border-color .25s, transform .25s;
@@ -689,7 +722,7 @@ body.admin-bar .site-nav { top: 32px; }
 .pq-box {
   background: var(--black-card);
   border: 1px solid rgba(255,255,255,.06);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 2rem;
 }
 
@@ -911,7 +944,7 @@ select.form-control option { background: var(--black-soft); }
 }
 
 @media (max-width: 600px) {
-  :root { --section-py: 3.5rem; }
+  :root { --section-py: 56px; }
 
   .hero-stats { gap: 1.5rem; }
 

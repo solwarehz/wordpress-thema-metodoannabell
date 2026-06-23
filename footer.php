@@ -3,9 +3,7 @@
     <div class="footer-inner">
 
       <div class="footer-brand">
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-logo">
-          <span style="color:var(--gold)">A·N·N·A·</span>B·E·L·L
-        </a>
+        <?php echo annabell_logo_html(true, 'nav-logo-img'); ?>
         <p class="footer-tagline">
           Programa de Acompañamiento y Escalamiento Empresarial.<br>
           Escala tu negocio con orden, estrategia y liderazgo.

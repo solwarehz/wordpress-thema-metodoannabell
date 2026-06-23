@@ -32,6 +32,41 @@ function annabell_assets(): void {
 }
 add_action('wp_enqueue_scripts', 'annabell_assets');
 
+/* ── Logo de marca (mismo archivo en todo el sitio) ──
+   $linked=true  → enlaza al home (páginas normales)
+   $linked=false → estático, no clickable (landing VSL: el lead no debe escapar) */
+function annabell_logo_html(bool $linked = true, string $class = 'site-logo'): string {
+    // 1) Logo elegido en Personalizar → Identidad del sitio (biblioteca de medios)
+    $logo_id = (int) get_theme_mod('custom_logo');
+    $src = $logo_id ? wp_get_attachment_image_url($logo_id, 'full') : '';
+    // 2) Fallback: logo incluido en el tema
+    if (!$src) $src = get_template_directory_uri() . '/assets/img/logo-metodo-annabell-1-a-2.png';
+    // Alt: campo del Customizer, o el alt de la imagen, o el nombre del sitio
+    $alt = get_theme_mod('logo_alt', '');
+    if (!$alt && $logo_id) $alt = get_post_meta($logo_id, '_wp_attachment_image_alt', true);
+    if (!$alt) $alt = get_bloginfo('name');
+    $alt = esc_attr($alt);
+
+    $img = '<img src="' . esc_url($src) . '" alt="' . $alt . '" class="' . esc_attr($class) . '">';
+    if ($linked) {
+        return '<a href="' . esc_url(home_url('/')) . '" class="logo-link" aria-label="Inicio">' . $img . '</a>';
+    }
+    return '<span class="logo-static" role="img" aria-label="' . $alt . '">' . $img . '</span>';
+}
+
+/* Campo "alt del logo" junto al selector de logo (Identidad del sitio) */
+function annabell_logo_alt_customize(WP_Customize_Manager $wpc): void {
+    $wpc->add_setting('logo_alt', ['default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
+    $wpc->add_control('logo_alt', [
+        'label'       => 'Texto alternativo del logo (alt)',
+        'description' => 'Se aplica al logo en todo el sitio (SEO/accesibilidad). Ej: Método Annabell.',
+        'section'     => 'title_tagline',
+        'type'        => 'text',
+        'priority'    => 9,
+    ]);
+}
+add_action('customize_register', 'annabell_logo_alt_customize');
+
 /* ── Contact form AJAX handler ── */
 function annabell_handle_contact(): void {
     check_ajax_referer('annabell_contact', 'nonce');
@@ -363,9 +398,9 @@ class Annabell_Order_Control extends WP_Customize_Control {
                 font-size:12px; color:#e0e0e0; user-select:none;
                 transition: background .15s, border-color .15s;
             }
-            .ab-sort-item:hover { background:#2a2a2a; border-color:#c9a84c55; }
-            .ab-sort-item.ui-sortable-helper { cursor:grabbing; background:#2e2a1e; border-color:#c9a84c; box-shadow:0 4px 16px rgba(0,0,0,.5); }
-            .ab-sort-item.ui-sortable-placeholder { visibility:visible !important; background:rgba(201,168,76,.08); border:1px dashed #c9a84c55; border-radius:6px; }
+            .ab-sort-item:hover { background:#2a2a2a; border-color:#D4AF3755; }
+            .ab-sort-item.ui-sortable-helper { cursor:grabbing; background:#2e2a1e; border-color:#D4AF37; box-shadow:0 4px 16px rgba(0,0,0,.5); }
+            .ab-sort-item.ui-sortable-placeholder { visibility:visible !important; background:rgba(212,175,55,.08); border:1px dashed #D4AF3755; border-radius:6px; }
             .ab-sort-handle { color:#555; font-size:16px; line-height:1; flex-shrink:0; }
         ');
     }
@@ -476,33 +511,32 @@ function annabell_customize_register_extra(WP_Customize_Manager $wpc): void {
     $wpc->add_section('annabell_estilo_sec', ['title' => '🎨 Estilo & Marca', 'panel' => 'annabell_panel', 'priority' => 8]);
     $s = 'annabell_estilo_sec';
     foreach ([
-        ['color_gold',       'Color dorado principal',  '#c9a84c'],
-        ['color_gold_light', 'Color dorado claro',      '#e0c06a'],
-        ['color_bg_dark',    'Fondo oscuro principal',  '#0a0a0a'],
-        ['color_bg_soft',    'Fondo suave (secciones)', '#111111'],
-        ['color_text_light', 'Texto claro',             '#f5f0e8'],
-        ['color_text_gray',  'Texto gris',              '#888888'],
+        ['color_gold',       'Color dorado principal',  '#D4AF37'],
+        ['color_gold_light', 'Color dorado claro',      '#E8D4A8'],
+        ['color_bg_dark',    'Fondo oscuro principal',  '#0A0A0A'],
+        ['color_bg_soft',    'Fondo suave (secciones)', '#161616'],
+        ['color_text_light', 'Texto claro',             '#FFFFFF'],
+        ['color_text_gray',  'Texto gris',              '#C9C9C9'],
     ] as [$id, $label, $default]) {
         $wpc->add_setting($id, ['default' => $default, 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_hex_color']);
         $wpc->add_control(new WP_Customize_Color_Control($wpc, $id, ['label' => $label, 'section' => $s]));
     }
-    $wpc->add_setting('font_heading', ['default' => 'Cormorant Garamond', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
-    $wpc->add_control('font_heading', ['label' => 'Tipografía — Títulos', 'section' => $s, 'type' => 'select', 'choices' => [
-        'Cormorant Garamond' => 'Cormorant Garamond (predeterminado)',
-        'Playfair Display'   => 'Playfair Display',
-        'Cinzel'             => 'Cinzel',
-        'Libre Baskerville'  => 'Libre Baskerville',
-        'Lora'               => 'Lora',
-        'Raleway'            => 'Raleway',
+    $wpc->add_setting('font_heading', ['default' => 'Oswald', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
+    $wpc->add_control('font_heading', ['label' => 'Tipografía — Títulos (impacto)', 'section' => $s, 'type' => 'select', 'choices' => [
+        'Oswald'           => 'Oswald (predeterminado · marca)',
+        'Anton'            => 'Anton',
+        'Bebas Neue'       => 'Bebas Neue',
+        'Archivo Narrow'   => 'Archivo Narrow',
+        'Playfair Display' => 'Playfair Display',
     ]]);
-    $wpc->add_setting('font_body', ['default' => 'Inter', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
+    $wpc->add_setting('font_body', ['default' => 'Lato', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
     $wpc->add_control('font_body', ['label' => 'Tipografía — Texto', 'section' => $s, 'type' => 'select', 'choices' => [
-        'Inter'       => 'Inter (predeterminado)',
+        'Lato'        => 'Lato (predeterminado · marca)',
+        'Inter'       => 'Inter',
         'Roboto'      => 'Roboto',
         'Open Sans'   => 'Open Sans',
         'Montserrat'  => 'Montserrat',
         'Nunito Sans' => 'Nunito Sans',
-        'DM Sans'     => 'DM Sans',
     ]]);
 
     // ── VIDEO ─────────────────────────────────
@@ -577,29 +611,29 @@ add_action('customize_register', 'annabell_customize_register_whatsapp');
 
 /* ── CSS variables dinámicas desde Customizer ── */
 function annabell_dynamic_styles(): void {
-    $gold       = sanitize_hex_color(get_theme_mod('color_gold',       '#c9a84c')) ?: '#c9a84c';
-    $gold_light = sanitize_hex_color(get_theme_mod('color_gold_light', '#e0c06a')) ?: '#e0c06a';
-    $bg_dark    = sanitize_hex_color(get_theme_mod('color_bg_dark',    '#0a0a0a')) ?: '#0a0a0a';
-    $bg_soft    = sanitize_hex_color(get_theme_mod('color_bg_soft',    '#111111')) ?: '#111111';
-    $txt_light  = sanitize_hex_color(get_theme_mod('color_text_light', '#f5f0e8')) ?: '#f5f0e8';
-    $txt_gray   = sanitize_hex_color(get_theme_mod('color_text_gray',  '#888888')) ?: '#888888';
-    $font_head  = preg_replace('/[^a-zA-Z0-9 \-]/', '', get_theme_mod('font_heading', 'Cormorant Garamond'));
-    $font_body  = preg_replace('/[^a-zA-Z0-9 \-]/', '', get_theme_mod('font_body',    'Inter'));
+    $gold       = sanitize_hex_color(get_theme_mod('color_gold',       '#D4AF37')) ?: '#D4AF37';
+    $gold_light = sanitize_hex_color(get_theme_mod('color_gold_light', '#E8D4A8')) ?: '#E8D4A8';
+    $bg_dark    = sanitize_hex_color(get_theme_mod('color_bg_dark',    '#0A0A0A')) ?: '#0A0A0A';
+    $bg_soft    = sanitize_hex_color(get_theme_mod('color_bg_soft',    '#161616')) ?: '#161616';
+    $txt_light  = sanitize_hex_color(get_theme_mod('color_text_light', '#FFFFFF')) ?: '#FFFFFF';
+    $txt_gray   = sanitize_hex_color(get_theme_mod('color_text_gray',  '#C9C9C9')) ?: '#C9C9C9';
+    $font_head  = preg_replace('/[^a-zA-Z0-9 \-]/', '', get_theme_mod('font_heading', 'Oswald'));
+    $font_body  = preg_replace('/[^a-zA-Z0-9 \-]/', '', get_theme_mod('font_body',    'Lato'));
     echo "<style id=\"annabell-vars\">:root{";
-    echo "--gold:{$gold};--gold-light:{$gold_light};";
-    echo "--black:{$bg_dark};--black-soft:{$bg_soft};";
-    echo "--white:{$txt_light};--gray:{$txt_gray};";
-    if ($font_head) echo "--font-head:'{$font_head}',serif;";
-    if ($font_body) echo "--font-body:'{$font_body}',sans-serif;";
+    echo "--oro:{$gold};--gold:{$gold};--oro-claro:{$gold_light};--gold-light:{$gold_light};";
+    echo "--negro:{$bg_dark};--black:{$bg_dark};--carbon:{$bg_soft};--black-soft:{$bg_soft};--black-card:{$bg_soft};";
+    echo "--blanco:{$txt_light};--white:{$txt_light};--gris-texto:{$txt_gray};--gray-light:{$txt_gray};";
+    if ($font_head) echo "--font-titular:'{$font_head}',sans-serif;--font-head:'{$font_head}',sans-serif;";
+    if ($font_body) echo "--font-body:'{$font_body}',sans-serif;--font-cuerpo:'{$font_body}',sans-serif;";
     echo "}</style>\n";
 }
 add_action('wp_head', 'annabell_dynamic_styles');
 
 /* ── Google Fonts dinámicas ── */
 function annabell_enqueue_dynamic_fonts(): void {
-    $head     = get_theme_mod('font_heading', 'Cormorant Garamond');
-    $body     = get_theme_mod('font_body',    'Inter');
-    $families = array_filter(array_unique([$head, $body]));
+    $head     = get_theme_mod('font_heading', 'Oswald');
+    $body     = get_theme_mod('font_body',    'Lato');
+    $families = array_filter(array_unique([$head, $body, 'Cinzel']));
     if (!$families) return;
     $params = implode('&', array_map(function($f) {
         return 'family=' . str_replace(' ', '+', $f) . ':ital,wght@0,300;0,400;0,500;0,600;0,700;1,400';
@@ -607,3 +641,96 @@ function annabell_enqueue_dynamic_fonts(): void {
     wp_enqueue_style('annabell-gfonts-custom', "https://fonts.googleapis.com/css2?{$params}&display=swap", [], null);
 }
 add_action('wp_enqueue_scripts', 'annabell_enqueue_dynamic_fonts');
+
+/* ── Home (Autoridad): campos del Customizer + assets ── */
+require_once get_template_directory() . '/inc/home-fields.php';
+
+function annabell_home_assets(): void {
+    if (!is_front_page()) return;
+    // La home usa su propio sistema de diseño (VSL); fuera el CSS/JS viejo.
+    wp_dequeue_style('annabell-main');
+    wp_dequeue_script('annabell-main');
+    $v = wp_get_theme()->get('Version');
+    wp_enqueue_style('annabell-home-fonts', 'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap', [], null);
+    wp_enqueue_style('annabell-home', get_template_directory_uri() . '/assets/css/home.css', [], $v);
+    wp_enqueue_style('annabell-reveal', get_template_directory_uri() . '/assets/css/reveal.css', [], $v);
+    wp_enqueue_script('annabell-lightbox', get_template_directory_uri() . '/assets/js/lightbox.js', [], $v, true);
+    wp_enqueue_script('annabell-carousel', get_template_directory_uri() . '/assets/js/carousel.js', [], $v, true);
+    wp_enqueue_script('annabell-reveal', get_template_directory_uri() . '/assets/js/reveal.js', [], $v, true);
+}
+add_action('wp_enqueue_scripts', 'annabell_home_assets', 20);
+
+/* ── VSL Landing: campos ACF + assets (solo en la plantilla page-vsl.php) ── */
+require_once get_template_directory() . '/inc/vsl-fields.php';
+
+function annabell_vsl_assets(): void {
+    if (!is_page_template('page-vsl.php')) return;
+    // La home modular no aplica aquí: quitamos su CSS/JS y cargamos solo el del VSL.
+    wp_dequeue_style('annabell-main');
+    wp_dequeue_script('annabell-main');
+    $v = wp_get_theme()->get('Version');
+    wp_enqueue_style('annabell-vsl-fonts', 'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap', [], null);
+    wp_enqueue_style('annabell-vsl', get_template_directory_uri() . '/assets/css/vsl.css', [], $v);
+    wp_enqueue_style('annabell-reveal', get_template_directory_uri() . '/assets/css/reveal.css', [], $v);
+    wp_enqueue_script('annabell-reveal', get_template_directory_uri() . '/assets/js/reveal.js', [], $v, true);
+}
+add_action('wp_enqueue_scripts', 'annabell_vsl_assets', 20);
+
+/* ── Tracking: Google Tag Manager + código libre en <head> y tras <body> ──
+   Afecta a TODAS las páginas (home, landing, etc.) vía wp_head / wp_body_open. */
+function annabell_tracking_customize(WP_Customize_Manager $wpc): void {
+    $wpc->add_section('annabell_tracking', [
+        'title'       => '🔌 Códigos / Tracking',
+        'priority'    => 200,
+        'description' => 'Se aplican a todo el sitio, incluida la landing VSL.',
+    ]);
+
+    // Sanitize permisivo: el Customizer solo es accesible para administradores.
+    $raw = function ($value) { return $value; };
+
+    $wpc->add_setting('gtm_id', ['default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
+    $wpc->add_control('gtm_id', [
+        'label'       => 'Google Tag Manager — ID',
+        'description' => 'Ej: GTM-XXXXXXX. Inserta automáticamente el snippet en &lt;head&gt; y el &lt;noscript&gt; tras &lt;body&gt; en todas las páginas. Lo demás se configura dentro de GTM.',
+        'section'     => 'annabell_tracking',
+        'type'        => 'text',
+    ]);
+
+    $wpc->add_setting('head_code', ['default' => '', 'transport' => 'refresh', 'sanitize_callback' => $raw]);
+    $wpc->add_control('head_code', [
+        'label'       => 'Código adicional en <head>',
+        'description' => 'Cualquier otro script (se imprime en el &lt;head&gt;).',
+        'section'     => 'annabell_tracking',
+        'type'        => 'textarea',
+    ]);
+
+    $wpc->add_setting('body_code', ['default' => '', 'transport' => 'refresh', 'sanitize_callback' => $raw]);
+    $wpc->add_control('body_code', [
+        'label'       => 'Código adicional tras <body>',
+        'description' => 'Se imprime justo después de abrir &lt;body&gt;.',
+        'section'     => 'annabell_tracking',
+        'type'        => 'textarea',
+    ]);
+}
+add_action('customize_register', 'annabell_tracking_customize');
+
+function annabell_tracking_head(): void {
+    $id = trim((string) get_theme_mod('gtm_id', ''));
+    if ($id && preg_match('/^GTM-[A-Z0-9]+$/i', $id)) {
+        echo "\n<!-- Google Tag Manager -->\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','" . esc_js($id) . "');</script>\n<!-- End Google Tag Manager -->\n";
+    }
+    $extra = (string) get_theme_mod('head_code', '');
+    if ($extra !== '') echo "\n" . $extra . "\n";
+}
+add_action('wp_head', 'annabell_tracking_head', 1);
+
+function annabell_tracking_body(): void {
+    $id = trim((string) get_theme_mod('gtm_id', ''));
+    if ($id && preg_match('/^GTM-[A-Z0-9]+$/i', $id)) {
+        $u = esc_attr($id);
+        echo "<!-- Google Tag Manager (noscript) --><noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id={$u}\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript><!-- End Google Tag Manager (noscript) -->\n";
+    }
+    $extra = (string) get_theme_mod('body_code', '');
+    if ($extra !== '') echo $extra . "\n";
+}
+add_action('wp_body_open', 'annabell_tracking_body');

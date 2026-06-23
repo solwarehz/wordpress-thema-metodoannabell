@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — Método Annabell · Preview (hub de autoridad)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   HOME — Hub de autoridad de Annabell Aguedo
+   Mismo sistema de diseño que el VSL (la v2 es el estándar):
+   Inter + Cinzel · Negro #0A0A0A · Oro #D4AF37
+   Toda foto va en un contenedor .cover → centrada H y V, sin deformar.
+   Estructura modular: cada <section data-mod> se podrá activar/desactivar.
+   ============================================================ */
+:root{
+  --negro:#0A0A0A; --carbon:#161616; --carbon-2:#1f1f1f;
+  --oro:#D4AF37; --oro-claro:#E8D4A8; --oro-profundo:#B8860B;
+  --blanco:#FFFFFF; --gris:#C9C9C9; --gris-claro:#D9D9D9; --gris-tenue:#8A8A8A;
+  --rojo:#E05555;
+  --grad-oro:linear-gradient(180deg,#E8D4A8 0%,#D4AF37 45%,#B8860B 100%);
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --font-display:'Cinzel',Georgia,serif;
+  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s6:48px;--s8:64px;--s12:96px;
+  --content:1140px; --radius:14px; --radius-btn:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--negro);color:var(--gris-claro);font-family:var(--font);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.wrap{max-width:var(--content);margin:0 auto;padding:0 var(--s3)}
+.narrow{max-width:820px}
+.section{padding:var(--s12) 0}
+.section.carbon{background:var(--carbon)}
+.center{text-align:center}
+.mxa{margin-left:auto;margin-right:auto}
+
+h1,h2,h3{font-family:var(--font);color:var(--blanco);line-height:1.12;letter-spacing:-0.02em}
+h1{font-size:clamp(34px,5vw,56px);font-weight:800}
+h2{font-size:clamp(26px,3.4vw,42px);font-weight:800}
+h3{font-size:20px;font-weight:700;letter-spacing:-0.01em}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oro);display:inline-block;margin-bottom:var(--s3)}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--gris);line-height:1.7}
+p{color:var(--gris);max-width:68ch}
+.gold{color:var(--oro)}
+.elegante{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.2vw,38px);line-height:1.3;color:var(--blanco);letter-spacing:.5px}
+.grad-text{background:var(--grad-oro);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hl{background:linear-gradient(transparent 62%, rgba(212,175,55,.30) 0);padding:0 2px;color:var(--blanco);font-weight:600}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px;height:54px;padding:0 var(--s4);border-radius:var(--radius-btn);cursor:pointer;border:1.5px solid transparent;transition:.18s}
+.btn-oro{background:var(--grad-oro);color:var(--negro)}
+.btn-oro:hover{filter:brightness(1.07);box-shadow:0 8px 28px rgba(212,175,55,.35);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border-color:rgba(212,175,55,.55);color:var(--oro)}
+.btn-ghost:hover{background:rgba(212,175,55,.1);border-color:var(--oro)}
+.btn-lg{height:60px;font-size:18px;padding:0 var(--s6)}
+.btn-sm{height:42px;font-size:14px;padding:0 var(--s3)}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--oro);border:1px solid rgba(212,175,55,.5);border-radius:999px;padding:7px 15px;background:rgba(212,175,55,.05)}
+.divisor{width:60px;height:3px;background:var(--grad-oro);border-radius:3px;margin:var(--s3) auto}
+
+/* ===== UTILITARIO DE FOTO: centrada H y V, cualquier aspect ratio ===== */
+.cover{position:relative;overflow:hidden;border-radius:var(--radius);background:linear-gradient(135deg,#1c1c1c,#0c0c0c);border:1px solid rgba(212,175,55,.18)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center}
+.cover .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gris-tenue);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-align:center;padding:12px}
+.ar-1-1{aspect-ratio:1/1}
+.ar-4-5{aspect-ratio:4/5}
+.ar-3-2{aspect-ratio:3/2}
+.ar-16-9{aspect-ratio:16/9}
+
+/* ===== NAV (la home SÍ tiene menú) ===== */
+.nav{position:sticky;top:0;z-index:50;background:#000;border-bottom:1px solid rgba(212,175,55,.16)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:80px;gap:var(--s3)}
+.nav-logo img{height:58px;width:auto;display:block}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-size:14px;font-weight:600;color:var(--gris);letter-spacing:.3px;transition:color .2s}
+.nav-links a:hover{color:var(--oro)}
+.nav-burger{display:none}
+
+/* ===== HERO ===== */
+.hero{padding:var(--s12) 0;background:radial-gradient(ellipse 70% 60% at 70% 0%,rgba(212,175,55,.10),transparent 60%),linear-gradient(180deg,#0a0a0a,#0c0c0c)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s8);align-items:center}
+.hero h1{margin:var(--s2) 0 var(--s3)}
+.hero .role{color:var(--oro);font-weight:600;font-size:17px;letter-spacing:.5px}
+.hero-cta{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s6)}
+.hero-portrait{max-width:420px;margin-left:auto}
+
+/* ===== Bloques con foto al lado ===== */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:var(--s8);align-items:center}
+.split.rev .txt{order:2}
+
+/* ===== Galería de fotos ===== */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--s2)}
+.gallery .cover{aspect-ratio:1/1}
+
+/* ===== Evento (con su galería) ===== */
+.event{background:var(--carbon);border:1px solid rgba(212,175,55,.2);border-radius:var(--radius);padding:var(--s4);margin-bottom:var(--s4)}
+.event .head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s3)}
+.event .meta{font-size:13px;color:var(--oro);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.event .gallery{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.event .gallery .cover{aspect-ratio:4/3}
+
+/* ===== Galería de videos (podcast) ===== */
+.vgallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--s3)}
+.vcard{background:var(--carbon);border:1px solid rgba(212,175,55,.18);border-radius:var(--radius);overflow:hidden;transition:.25s}
+.vcard:hover{border-color:var(--oro);transform:translateY(-4px)}
+.vcard .thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#1c1c1c,#0c0c0c)}
+.vcard .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.vcard .play{position:absolute;inset:0;margin:auto;width:62px;height:62px;border-radius:50%;background:var(--grad-oro);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(212,175,55,.4)}
+.vcard .play svg{width:24px;height:24px;margin-left:3px;fill:var(--negro)}
+.vcard .vinfo{padding:var(--s3)}
+.vcard .vinfo b{color:var(--blanco);font-size:15px;display:block;margin-bottom:4px}
+.vcard .vinfo span{font-size:13px;color:var(--gris-tenue)}
+
+/* ===== Cifras ===== */
+.stats{display:flex;justify-content:center;gap:var(--s8);flex-wrap:wrap}
+.stats .s{text-align:center}
+.stats .s b{font-size:44px;font-weight:800;color:var(--oro);display:block;line-height:1;letter-spacing:-.02em}
+.stats .s span{font-size:13px;color:var(--gris-tenue);text-transform:uppercase;letter-spacing:1px}
+
+/* ===== Método (acrónimo) ===== */
+.acro{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s2);margin-top:var(--s8)}
+.acard{background:var(--carbon);border:1px solid rgba(212,175,55,.15);border-radius:var(--radius);padding:var(--s3)}
+.acard b{font-family:var(--font-display);font-size:34px;color:var(--oro);display:block;line-height:1}
+.acard .w{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--oro-claro);margin:6px 0}
+.acard p{font-size:14px}
+
+/* ===== Reconocimientos ===== */
+.recon{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s3)}
+.rcard{background:var(--carbon);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:var(--s4);text-align:center}
+.rcard svg{width:30px;height:30px;stroke:var(--oro);margin:0 auto var(--s2)}
+
+/* ===== Redes ===== */
+.social{display:flex;gap:var(--s2);flex-wrap:wrap;justify-content:center}
+.social a{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(212,175,55,.4);border-radius:999px;padding:12px 22px;color:var(--gris-claro);font-weight:600;font-size:15px;transition:.2s}
+.social a:hover{background:rgba(212,175,55,.1);border-color:var(--oro);color:var(--blanco)}
+.social svg{width:20px;height:20px;fill:var(--oro)}
+
+/* ===== Puente CTA ===== */
+.bridge{background:radial-gradient(ellipse 60% 120% at 50% 50%,rgba(212,175,55,.13),transparent 70%),var(--negro);text-align:center}
+
+/* ===== Footer ===== */
+.footer{background:#000;border-top:1px solid rgba(212,175,55,.12);padding:var(--s8) 0 var(--s4)}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--s6);margin-bottom:var(--s6)}
+.footer-logo img{height:64px;margin-bottom:var(--s2)}
+.footer h4{color:var(--oro);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:var(--s2)}
+.footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer ul a{color:var(--gris);font-size:14px}
+.footer ul a:hover{color:var(--oro)}
+.footer .bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:var(--s3);text-align:center;color:var(--gris-tenue);font-size:13px}
+
+/* Etiqueta "módulo" (solo preview) */
+.modtag{position:absolute;top:8px;left:8px;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gris-tenue);background:rgba(0,0,0,.5);border:1px solid rgba(212,175,55,.2);border-radius:4px;padding:2px 7px;z-index:5}
+.section{position:relative}
+
+@media(max-width:900px){
+  .hero-grid,.split{grid-template-columns:1fr;gap:var(--s4)}
+  .split.rev .txt{order:0}
+  .hero-portrait{margin:0 auto}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:700px){
+  body{font-size:16px}.section{padding:60px 0}
+  .stats{gap:var(--s4)}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap">
+    <a class="nav-logo" href="#"><img src="assets/img/logo-metodo-annabell-1-a-2.png" alt="Método Annabell"></a>
+    <ul class="nav-links">
+      <li><a href="#historia">Historia</a></li>
+      <li><a href="#goldent">Goldent</a></li>
+      <li><a href="#ponencias">Ponencias</a></li>
+      <li><a href="#podcast">Podcast</a></li>
+      <li><a href="#metodo">El Método</a></li>
+    </ul>
+    <a href="#mentoria" class="btn btn-oro btn-sm">Conoce la mentoría</a>
+  </div>
+</nav>
+
+<!-- ① HERO -->
+<section class="section hero" data-mod="hero">
+  <span class="modtag">módulo: hero</span>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Empresaria · Odontóloga · Mentora</span>
+        <h1>Annabell <span class="gold">Aguedo</span></h1>
+        <p class="lead">No nació empresaria: se hizo. De la fotografía al frente de una clínica que dirige y escala — hoy acompaña a otros emprendedores a dar el mismo salto, con método.</p>
+        <div class="hero-cta">
+          <a href="#historia" class="btn btn-oro btn-lg">Conoce su historia</a>
+          <a href="#mentoria" class="btn btn-ghost btn-lg">La mentoría</a>
+        </div>
+      </div>
+      <div class="hero-portrait">
+        <div class="cover ar-4-5"><div class="ph">Foto profesional de Annabell<br>(subir a Media)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② SU HISTORIA -->
+<section class="section carbon" id="historia" data-mod="historia">
+  <span class="modtag">módulo: historia</span>
+  <div class="wrap narrow center mxa">
+    <span class="eyebrow">Su historia</span>
+    <h2>Una trayectoria que <span class="gold">construye, escala y evoluciona</span></h2>
+    <div class="divisor"></div>
+    <p class="mxa">Annabell entendió temprano que un negocio no se sostiene con esfuerzo, sino con estructura. Empezó capturando momentos como fotógrafa, construyó una marca reconocida, y cuando tocó evolucionar, dio el salto a la odontología empresarial. Hoy dirige Clínica Goldent y comparte su método con quienes quieren escalar de verdad.</p>
+    <p class="elegante grad-text mxa" style="margin-top:var(--s6)">"Cada etapa me enseñó algo que hoy transmito en cada sesión."</p>
+  </div>
+</section>
+
+<!-- ③ CLÍNICA GOLDENT -->
+<section class="section" id="goldent" data-mod="goldent">
+  <span class="modtag">módulo: goldent</span>
+  <div class="wrap">
+    <div class="split">
+      <div class="txt">
+        <span class="eyebrow">El presente</span>
+        <h2>Directora de <span class="gold">Clínica Goldent</span></h2>
+        <p style="margin-top:var(--s3)">Annabell dirige una clínica real, con equipo, procesos y crecimiento sostenido. Aquí aplica —y prueba— el mismo método que enseña: ordenar, delegar y escalar sin ser el cuello de botella.</p>
+        <div class="hero-cta" style="margin-top:var(--s4)">
+          <a href="#" class="btn btn-ghost"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6v1.9h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg> Facebook de Goldent</a>
+        </div>
+      </div>
+      <div>
+        <div class="cover ar-16-9"><div class="ph">Video de la clínica<br>(YouTube / Facebook)</div></div>
+        <div class="gallery" style="margin-top:var(--s2);grid-template-columns:1fr 1fr 1fr">
+          <div class="cover"><div class="ph">Foto</div></div>
+          <div class="cover"><div class="ph">Foto</div></div>
+          <div class="cover"><div class="ph">Foto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ④ PONENCIAS (cada evento = una galería) -->
+<section class="section carbon" id="ponencias" data-mod="ponencias">
+  <span class="modtag">módulo: ponencias</span>
+  <div class="wrap">
+    <div class="center" style="margin-bottom:var(--s8)">
+      <span class="eyebrow">Ponente</span>
+      <h2>Referente en eventos de odontología</h2>
+      <p class="lead mxa" style="margin-top:var(--s3)">Invitada a compartir su visión empresarial del sector salud. Cada evento, su propia galería.</p>
+    </div>
+
+    <div class="event">
+      <div class="head">
+        <div><h3>Nombre del Congreso / Evento 1</h3><p style="font-size:14px;margin-top:4px">Tema de la ponencia — resumen breve de lo que presentó.</p></div>
+        <span class="meta">Ciudad · 2025</span>
+      </div>
+      <div class="gallery">
+        <div class="cover"><div class="ph">Foto evento</div></div>
+        <div class="cover"><div class="ph">Foto evento</div></div>
+        <div class="cover"><div class="ph">Foto evento</div></div>
+        <div class="cover"><div class="ph">Foto evento</div></div>
+      </div>
+    </div>
+
+    <div class="event">
+      <div class="head">
+        <div><h3>Nombre del Congreso / Evento 2</h3><p style="font-size:14px;margin-top:4px">Tema de la ponencia — resumen breve.</p></div>
+        <span class="meta">Ciudad · 2024</span>
+      </div>
+      <div class="gallery">
+        <div class="cover"><div class="ph">Foto evento</div></div>
+        <div class="cover"><div class="ph">Foto evento</div></div>
+        <div class="cover"><div class="ph">Foto evento</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ PODCAST RAÍZ FIRME (galería de videos) -->
+<section class="section" id="podcast" data-mod="podcast">
+  <span class="modtag">módulo: podcast</span>
+  <div class="wrap">
+    <div class="center" style="margin-bottom:var(--s8)">
+      <span class="eyebrow">Su podcast</span>
+      <h2>Raíz <span class="gold">Firme</span></h2>
+      <p class="lead mxa" style="margin-top:var(--s3)">Conversaciones sobre negocio, liderazgo y mentalidad. Escúchala pensar — la mejor forma de conocerla.</p>
+    </div>
+    <div class="vgallery">
+      <div class="vcard"><div class="thumb"><div class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></div></div><div class="vinfo"><b>Título del episodio 1</b><span>Raíz Firme · YouTube</span></div></div>
+      <div class="vcard"><div class="thumb"><div class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></div></div><div class="vinfo"><b>Título del episodio 2</b><span>Raíz Firme · YouTube</span></div></div>
+      <div class="vcard"><div class="thumb"><div class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></div></div><div class="vinfo"><b>Título del episodio 3</b><span>Raíz Firme · YouTube</span></div></div>
+    </div>
+    <div class="center" style="margin-top:var(--s6)"><a href="#" class="btn btn-ghost">Ver el canal en YouTube →</a></div>
+  </div>
+</section>
+
+<!-- ⑥ FOTOGRAFÍA DE BEBÉS (pasado) -->
+<section class="section carbon" id="fotografia" data-mod="fotografia">
+  <span class="modtag">módulo: fotografía</span>
+  <div class="wrap">
+    <div class="split rev">
+      <div>
+        <div class="gallery" style="grid-template-columns:1fr 1fr">
+          <div class="cover ar-1-1"><div class="ph">Foto bebé</div></div>
+          <div class="cover ar-1-1"><div class="ph">Foto bebé</div></div>
+          <div class="cover ar-1-1"><div class="ph">Foto bebé</div></div>
+          <div class="cover ar-1-1"><div class="ph">Foto bebé</div></div>
+        </div>
+      </div>
+      <div class="txt">
+        <span class="eyebrow">Una etapa que la formó</span>
+        <h2>Su primer emprendimiento: <span class="gold">fotografía de bebés</span></h2>
+        <p style="margin-top:var(--s3)">Antes de la clínica, Annabell construyó desde cero una marca de fotografía de bebés que llegó a ser reconocida por su calidad y sensibilidad. Una comunidad creció alrededor de su trabajo.</p>
+        <div class="stats" style="justify-content:flex-start;margin:var(--s4) 0">
+          <div class="s"><b>+XX mil</b><span>Seguidores</span></div>
+          <div class="s"><b>XXX</b><span>Sesiones</span></div>
+        </div>
+        <p style="font-size:15px;color:var(--gris-tenue)">Hoy es un capítulo cerrado — el mismo olfato emprendedor que la llevó a saber <span class="hl">cuándo evolucionar</span>.</p>
+        <div style="margin-top:var(--s3)"><a href="#" class="btn btn-ghost btn-sm">Ver el perfil (archivo)</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑦ CIFRAS -->
+<section class="section" data-mod="cifras">
+  <span class="modtag">módulo: cifras</span>
+  <div class="wrap">
+    <div class="stats">
+      <div class="s"><b>6×</b><span>Crecimiento clínica</span></div>
+      <div class="s"><b>+XX</b><span>Seguidores fotografía</span></div>
+      <div class="s"><b>XX</b><span>Mentees acompañados</span></div>
+      <div class="s"><b>XX</b><span>Años emprendiendo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ EL MÉTODO -->
+<section class="section carbon" id="metodo" data-mod="metodo">
+  <span class="modtag">módulo: método</span>
+  <div class="wrap center">
+    <span class="eyebrow">Su sistema</span>
+    <h2>El Método A·N·N·A·B·E·L·L</h2>
+    <p class="lead mxa" style="margin-top:var(--s3)">Ocho pilares que destiló de su propia experiencia construyendo y escalando negocios.</p>
+    <div class="acro">
+      <div class="acard"><b>A</b><div class="w">Analiza</div><p>Comprende tu realidad antes de escalar.</p></div>
+      <div class="acard"><b>N</b><div class="w">Numera</div><p>Lo que no se mide, no mejora.</p></div>
+      <div class="acard"><b>N</b><div class="w">Navega</div><p>Dirige con visión estratégica.</p></div>
+      <div class="acard"><b>A</b><div class="w">Anticípate</div><p>Ordena antes del caos.</p></div>
+      <div class="acard"><b>B</b><div class="w">Busca talento</div><p>Contrata por estándar, no por urgencia.</p></div>
+      <div class="acard"><b>E</b><div class="w">Enseña</div><p>Delegar exige formar.</p></div>
+      <div class="acard"><b>L</b><div class="w">Lidera</div><p>Lidera la estructura, no operes.</p></div>
+      <div class="acard"><b>L</b><div class="w">Lecciona</div><p>Mejora continua.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨ RECONOCIMIENTOS -->
+<section class="section" data-mod="reconocimientos">
+  <span class="modtag">módulo: reconocimientos</span>
+  <div class="wrap">
+    <div class="center" style="margin-bottom:var(--s8)"><span class="eyebrow">Respaldo</span><h2>Reconocimientos</h2></div>
+    <div class="recon">
+      <div class="rcard"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.6 17 22l-5-3-5 3 1.5-8.4"/></svg><h3 style="font-size:16px">Mentora invitada</h3><p style="font-size:14px;margin-top:6px">Cámara de Comercio de Huaraz</p></div>
+      <div class="rcard"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg><h3 style="font-size:16px">Ponente</h3><p style="font-size:14px;margin-top:6px">Eventos de odontología</p></div>
+      <div class="rcard"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-5v12L3 14v-3zM11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><h3 style="font-size:16px">Podcaster</h3><p style="font-size:14px;margin-top:6px">Raíz Firme</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑩ SÍGUEME -->
+<section class="section carbon" data-mod="redes">
+  <span class="modtag">módulo: redes</span>
+  <div class="wrap center">
+    <span class="eyebrow">Conecta</span>
+    <h2>Sígueme</h2>
+    <div class="social" style="margin-top:var(--s6)">
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.6.8-1.6 1.6v1.9h2.7l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></svg> Facebook Goldent</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 0 0 1 7.5 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.4 12 31 31 0 0 0 23 7.5zM9.8 15.3V8.7l5.7 3.3z"/></svg> YouTube · Raíz Firme</a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.3 2.2 12s0-3.6.1-4.9C2.4 3.9 4 2.3 7.1 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 6.9a5.1 5.1 0 1 0 0 10.2 5.1 5.1 0 0 0 0-10.2zm0 8.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6zm5.3-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg> Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑪ PUENTE AL VSL -->
+<section class="section bridge" id="mentoria" data-mod="cta">
+  <span class="modtag">módulo: cta-mentoría</span>
+  <div class="wrap center">
+    <span class="eyebrow">La mentoría</span>
+    <h2>¿Quieres que te acompañe a<br><span class="gold">escalar tu negocio?</span></h2>
+    <p class="lead mxa" style="margin:var(--s3) auto var(--s6)">El Método Annabell, aplicado a tu caso, en mentoría 1:1. Conoce cómo funciona y postula a un cupo.</p>
+    <a href="#" class="btn btn-oro btn-lg">Conoce la mentoría →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="footer-logo" href="#"><img src="assets/img/logo-metodo-annabell-1-a-2.png" alt="Método Annabell"></a>
+        <p style="font-size:14px;max-width:34ch">Empresaria, odontóloga y mentora. De autoempleado a empresario.</p>
+      </div>
+      <div><h4>Explora</h4><ul><li><a href="#historia">Su historia</a></li><li><a href="#goldent">Clínica Goldent</a></li><li><a href="#podcast">Podcast Raíz Firme</a></li><li><a href="#metodo">El Método</a></li></ul></div>
+      <div><h4>Conecta</h4><ul><li><a href="#">Facebook Goldent</a></li><li><a href="#">YouTube</a></li><li><a href="#">Instagram</a></li><li><a href="#mentoria">La mentoría</a></li></ul></div>
+    </div>
+    <div class="bottom">© 2026 Método Annabell · Annabell Aguedo</div>
+  </div>
+</footer>
+
+</body>
+</html>

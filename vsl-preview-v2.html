@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VSL v2 — Método Annabell · Preview de conversión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MÉTODO ANNABELL — VSL v2  (estructura de conversión)
+   Marca: Negro #0A0A0A · Oro #D4AF37  (documents/SISTEMA_DISENO.md)
+   Tipografía: Inter (lectura/impacto) + Cinzel (wordmark)
+   Aprendizajes aplicados: hero partido, prueba social inmediata,
+   value-stack por fases, autoridad + cita, preview gratis,
+   oro como acento sobre palabras clave, CTAs repetidos.
+   ============================================================ */
+:root{
+  --negro:#0A0A0A; --carbon:#161616; --carbon-2:#1f1f1f;
+  --oro:#D4AF37; --oro-claro:#E8D4A8; --oro-profundo:#B8860B;
+  --blanco:#FFFFFF; --gris:#C9C9C9; --gris-claro:#D9D9D9; --gris-tenue:#8A8A8A;
+  --grad-oro:linear-gradient(180deg,#E8D4A8 0%,#D4AF37 45%,#B8860B 100%);
+  --font:'Inter',system-ui,-apple-system,sans-serif;
+  --font-display:'Cinzel',Georgia,serif;
+  --s1:8px;--s2:16px;--s3:24px;--s4:32px;--s6:48px;--s8:64px;--s12:96px;
+  --content:1140px; --radius:14px; --radius-btn:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--negro);color:var(--gris-claro);font-family:var(--font);font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.wrap{max-width:var(--content);margin:0 auto;padding:0 var(--s3)}
+.narrow{max-width:760px}
+.section{padding:var(--s12) 0}
+.section.carbon{background:var(--carbon)}
+.center{text-align:center}
+.mxa{margin-left:auto;margin-right:auto}
+
+/* Tipografía */
+h1,h2,h3{font-family:var(--font);color:var(--blanco);line-height:1.12;letter-spacing:-0.02em}
+h1{font-size:clamp(34px,5vw,58px);font-weight:800}
+h2{font-size:clamp(28px,3.6vw,44px);font-weight:800}
+h3{font-size:21px;font-weight:700;letter-spacing:-0.01em}
+.eyebrow{font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oro);display:inline-block;margin-bottom:var(--s3)}
+.lead{font-size:clamp(18px,2vw,21px);color:var(--gris);line-height:1.7}
+p{color:var(--gris);max-width:66ch}
+.gold{color:var(--oro)}
+.elegante{font-family:var(--font-display);font-weight:700;font-size:clamp(24px,3.2vw,38px);line-height:1.3;color:var(--blanco);letter-spacing:.5px}
+.grad-text{background:var(--grad-oro);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+/* Acento "resaltador" en oro sobre palabras clave (rol del amarillo en la referencia) */
+.hl{background:linear-gradient(transparent 62%, rgba(212,175,55,.30) 0);padding:0 2px;color:var(--blanco);font-weight:600}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--font);font-weight:700;font-size:16px;letter-spacing:.2px;height:54px;padding:0 var(--s4);border-radius:var(--radius-btn);cursor:pointer;border:1.5px solid transparent;transition:transform .18s,box-shadow .18s,filter .18s,background .18s}
+.btn-oro{background:var(--grad-oro);color:var(--negro)}
+.btn-oro:hover{filter:brightness(1.07);box-shadow:0 8px 28px rgba(212,175,55,.35);transform:translateY(-2px)}
+.btn-ghost{background:transparent;border-color:rgba(212,175,55,.55);color:var(--oro)}
+.btn-ghost:hover{background:rgba(212,175,55,.1);border-color:var(--oro)}
+.btn-lg{height:60px;font-size:18px;padding:0 var(--s6)}
+.btn-sm{height:42px;font-size:14px;padding:0 var(--s3)}
+.btn-block{width:100%}
+
+.badge{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--oro);border:1px solid rgba(212,175,55,.5);border-radius:999px;padding:7px 15px;background:rgba(212,175,55,.05)}
+.badge.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--oro);box-shadow:0 0 8px var(--oro);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.divisor{width:60px;height:3px;background:var(--grad-oro);border-radius:3px;margin:var(--s3) auto}
+.chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:var(--s6)}
+
+/* Top bar */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.14)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;gap:var(--s3)}
+.wordmark{font-weight:300;font-size:18px;letter-spacing:4px;text-transform:uppercase;color:var(--blanco);display:flex;align-items:center;gap:10px}
+.wordmark b{font-family:var(--font-display);font-weight:700;letter-spacing:1px}
+.wordmark .mark{width:30px;height:30px;border:1.5px solid var(--oro);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.wordmark .mark svg{width:15px;height:15px;stroke:var(--oro)}
+.topbar .promo{font-size:13px;color:var(--gris-tenue);display:flex;align-items:center;gap:14px}
+
+/* ===== HERO PARTIDO ===== */
+.hero{background:radial-gradient(ellipse 80% 55% at 50% -5%,rgba(212,175,55,.10) 0%,transparent 60%),linear-gradient(180deg,#0a0a0a,#0c0c0c);padding:var(--s12) 0 var(--s8)}
+.hero-head{max-width:880px;margin:0 auto var(--s8);text-align:center}
+.hero-head h1{margin-bottom:var(--s3)}
+.hero-split{display:grid;grid-template-columns:1.25fr .9fr;gap:var(--s6);align-items:start}
+/* Video */
+.video{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#1a1a1a,#0e0e0e);border:1px solid rgba(212,175,55,.3);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 60px rgba(212,175,55,.08),0 24px 60px rgba(0,0,0,.55)}
+.video::before{content:"VIDEO VSL · Vimeo";position:absolute;bottom:14px;left:16px;font-size:11px;letter-spacing:2px;color:var(--gris-tenue);text-transform:uppercase}
+.play{width:80px;height:80px;border-radius:50%;background:var(--grad-oro);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(212,175,55,.4);transition:transform .2s}
+.play:hover{transform:scale(1.07)}
+.play svg{width:30px;height:30px;margin-left:4px;fill:var(--negro)}
+.video-cap{font-size:13px;color:var(--gris-tenue);text-align:center;margin-top:12px}
+/* Caja de oferta */
+.offer{background:var(--carbon);border:1px solid rgba(212,175,55,.35);border-radius:var(--radius);padding:var(--s4);position:sticky;top:90px}
+.offer h3{margin-bottom:var(--s2);font-size:20px}
+.offer .ol{list-style:none;display:flex;flex-direction:column;gap:12px;margin:var(--s3) 0}
+.offer .ol li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;color:var(--gris)}
+.offer .ol li svg{width:19px;height:19px;stroke:var(--oro);flex-shrink:0;margin-top:2px}
+.offer .price-note{background:rgba(212,175,55,.07);border:1px dashed rgba(212,175,55,.35);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--oro-claro);margin-bottom:var(--s3);text-align:center}
+.offer .micro{font-size:12.5px;color:var(--gris-tenue);text-align:center;margin-top:12px}
+
+/* Prueba social */
+.proof-strip{border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);background:var(--carbon)}
+.proof-strip .wrap{display:flex;align-items:center;justify-content:center;gap:var(--s6);flex-wrap:wrap;padding:var(--s4) var(--s3)}
+.avatars{display:flex}
+.avatars span{width:42px;height:42px;border-radius:50%;border:2px solid var(--carbon);background:linear-gradient(135deg,#2a2a2a,#151515);margin-left:-12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:var(--oro);box-shadow:0 0 0 1px rgba(212,175,55,.3)}
+.avatars span:first-child{margin-left:0}
+.proof-strip .txt{font-size:15px;color:var(--gris)}
+.proof-strip .txt b{color:var(--blanco)}
+.stars{color:var(--oro);letter-spacing:2px}
+
+/* Stats */
+.stats{display:flex;justify-content:center;gap:var(--s8);flex-wrap:wrap}
+.stats .s{text-align:center}
+.stats .s b{font-size:40px;font-weight:800;color:var(--oro);display:block;line-height:1;letter-spacing:-.02em}
+.stats .s span{font-size:13px;color:var(--gris-tenue);text-transform:uppercase;letter-spacing:1px}
+
+/* Cards genéricas */
+.grid{display:grid;gap:var(--s3)}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--carbon);border:1px solid rgba(212,175,55,.22);border-radius:var(--radius);padding:var(--s4);transition:border-color .25s,transform .25s}
+.section.carbon .card{background:var(--negro)}
+.card:hover{border-color:var(--oro);transform:translateY(-4px)}
+.ico{width:52px;height:52px;border-radius:12px;border:1px solid var(--oro);display:flex;align-items:center;justify-content:center;margin-bottom:var(--s3);background:rgba(212,175,55,.07)}
+.ico svg{width:24px;height:24px;stroke:var(--oro)}
+
+/* Value-stack fases */
+.fase{background:var(--negro);border:1px solid rgba(212,175,55,.22);border-radius:var(--radius);padding:var(--s4);display:flex;flex-direction:column;gap:var(--s2)}
+.fase .top{display:flex;align-items:center;gap:14px}
+.fase .n{width:46px;height:46px;border-radius:12px;background:var(--grad-oro);color:var(--negro);font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fase .tag{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--oro)}
+.fase h3{margin-top:2px}
+.fase ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.fase li{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;color:var(--gris)}
+.fase li svg{width:18px;height:18px;stroke:var(--oro);flex-shrink:0;margin-top:2px}
+.fase .res{margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.07);font-size:14px;color:var(--oro-claro)}
+.fase .res b{color:var(--oro)}
+
+/* Pasos */
+.steps .num{counter-increment:step;width:40px;height:40px;border-radius:50%;background:var(--grad-oro);color:var(--negro);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:var(--s3)}
+.steps{counter-reset:step}
+.steps .num::before{content:counter(step)}
+
+/* CTA band */
+.cta-band{padding:var(--s8) 0;background:radial-gradient(ellipse 60% 120% at 50% 50%,rgba(212,175,55,.13),transparent 70%),var(--negro);text-align:center}
+.cta-band h2{margin-bottom:var(--s2)}
+.cta-band p{margin:0 auto var(--s4)}
+
+/* Autoridad */
+.autoridad{display:grid;grid-template-columns:.9fr 1.1fr;gap:var(--s8);align-items:center}
+.foto{aspect-ratio:4/5;border-radius:var(--radius);position:relative;overflow:hidden;background:linear-gradient(135deg,#1c1c1c,#0c0c0c);border:1px solid rgba(212,175,55,.25);display:flex;align-items:center;justify-content:center}
+.foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.55))}
+.foto span{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--gris-tenue);z-index:1}
+.bigquote{font-family:var(--font-display);font-style:normal;font-size:clamp(20px,2.4vw,28px);line-height:1.4;color:var(--blanco);border-left:3px solid var(--oro);padding-left:20px;margin:var(--s4) 0}
+
+/* Testimonios */
+.testi{background:var(--negro);border:1px solid rgba(212,175,55,.18);border-radius:var(--radius);padding:var(--s4);display:flex;flex-direction:column;gap:var(--s3)}
+.testi .q{font-size:16px;color:var(--gris);line-height:1.7;flex:1}
+.testi .who{display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,.07);padding-top:var(--s3)}
+.testi .av{width:44px;height:44px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.4);display:flex;align-items:center;justify-content:center;color:var(--oro);font-weight:700}
+.testi .who b{display:block;color:var(--blanco);font-size:15px}
+.testi .who span{font-size:13px;color:var(--gris-tenue)}
+
+/* Para quién */
+.pq{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+.pq-col{background:var(--carbon);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:var(--s4)}
+.section.carbon .pq-col{background:var(--negro)}
+.pq-col.si{border-color:rgba(212,175,55,.35)}
+.pq-col h3{margin-bottom:var(--s3)}
+.pq-col.si h3{color:var(--oro)}
+.pq-col.no h3{color:var(--gris-tenue)}
+.pq-col ul{list-style:none;display:flex;flex-direction:column;gap:14px}
+.pq-col li{display:flex;gap:12px;align-items:flex-start;font-size:16px;color:var(--gris);line-height:1.5}
+.pq-col li svg{width:20px;height:20px;flex-shrink:0;margin-top:2px}
+.pq-col.si li svg{stroke:var(--oro)}
+.pq-col.no li svg{stroke:var(--gris-tenue)}
+
+/* Objeciones */
+.obj{background:var(--negro);border-left:3px solid var(--oro);border-radius:0 12px 12px 0;padding:22px var(--s4)}
+.section.carbon .obj{background:var(--carbon)}
+.obj .d{color:var(--gris-tenue);font-style:italic;font-size:16px;margin-bottom:8px}
+.obj .a{color:var(--gris-claro);font-size:16px}
+
+/* Preview gratis */
+.preview-box{background:linear-gradient(135deg,rgba(212,175,55,.08),rgba(212,175,55,.02));border:1px solid rgba(212,175,55,.3);border-radius:var(--radius);padding:var(--s8) var(--s4);text-align:center}
+
+/* Form */
+.form{max-width:520px;margin:var(--s8) auto 0;background:var(--negro);border:1px solid rgba(212,175,55,.3);border-radius:var(--radius);padding:var(--s6)}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--s3);text-align:left}
+.field label{font-weight:600;font-size:13px;letter-spacing:.5px;color:var(--gris)}
+.field input{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:14px 16px;color:var(--blanco);font-family:var(--font);font-size:16px;transition:border-color .2s}
+.field input:focus{outline:none;border-color:var(--oro);background:rgba(212,175,55,.04)}
+.field input::placeholder{color:var(--gris-tenue)}
+.check{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--gris);margin-bottom:var(--s4);text-align:left}
+.check input{accent-color:var(--oro);width:18px;height:18px}
+
+/* FAQ */
+.faq{max-width:760px;margin:var(--s8) auto 0}
+.faq details{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px var(--s3);margin-bottom:12px;transition:border-color .2s}
+.faq details[open]{border-color:rgba(212,175,55,.3)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:var(--s3);font-weight:700;font-size:17px;color:var(--blanco)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary .plus{color:var(--oro);font-size:24px;line-height:1;transition:transform .2s;flex-shrink:0}
+.faq details[open] summary .plus{transform:rotate(45deg)}
+.faq p{margin-top:14px;font-size:15.5px}
+
+/* Footer */
+.footer{background:#050505;border-top:1px solid rgba(212,175,55,.12);padding:var(--s8) 0 var(--s4);text-align:center}
+.footer .wordmark{justify-content:center;margin-bottom:10px}
+.footer small{color:var(--gris-tenue);font-size:13px;display:block;margin-top:10px}
+
+@media(max-width:900px){
+  .hero-split{grid-template-columns:1fr;gap:var(--s4)}
+  .offer{position:static}
+  .autoridad{grid-template-columns:1fr;gap:var(--s4)}
+  .foto{max-width:320px;margin:0 auto}
+  .pq,.g2{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  body{font-size:16px}.section{padding:60px 0}
+  .topbar .promo{display:none}
+  .stats{gap:var(--s4)}
+  .proof-strip .wrap{gap:var(--s3)}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="wordmark" href="#">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 14 15 20 7"/><polyline points="15 7 20 7 20 12"/></svg></span>
+      MÉTODO <b class="grad-text">ANNABELL</b>
+    </a>
+    <span class="promo"><span class="badge dot">Apertura de cupos 2026</span></span>
+    <a href="#postular" class="btn btn-oro btn-sm">Postular</a>
+  </div>
+</header>
+
+<!-- HERO PARTIDO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-head">
+      <span class="eyebrow">Mentoría 1:1 · De autoempleado a empresario</span>
+      <h1>Tu negocio crece,<br>pero <span class="gold">todo sigue dependiendo de ti.</span></h1>
+      <p class="lead mxa">Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.</p>
+    </div>
+
+    <div class="hero-split">
+      <div>
+        <div class="video"><div class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></div></div>
+        <p class="video-cap">▶ Mira el video (3 min): por qué el problema no es tu esfuerzo, es tu estructura.</p>
+      </div>
+
+      <aside class="offer">
+        <h3>Postula a un cupo de mentoría</h3>
+        <p style="font-size:15px;margin-bottom:4px">Acompañamiento 1:1 personalizado según la etapa real de tu negocio.</p>
+        <ul class="ol">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Sesiones 1:1 con Annabell, no videos pregrabados</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Plan por fases al ritmo de tu ejecución</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Diagnóstico de tu negocio antes de empezar</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Línea especializada para sector salud</li>
+        </ul>
+        <div class="price-note">El nivel y la inversión se definen contigo tras postular · <b>Precio de lanzamiento</b></div>
+        <a href="#postular" class="btn btn-oro btn-block">Quiero postular a un cupo →</a>
+        <p class="micro">⚡ Solo 2 cupos por nivel cada mes · Sin compromiso al postular</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- PRUEBA SOCIAL INMEDIATA -->
+<div class="proof-strip">
+  <div class="wrap">
+    <div class="avatars"><span>M</span><span>C</span><span>L</span><span>J</span><span>+</span></div>
+    <div class="txt"><b>Emprendedores y profesionales</b> ya están escalando con el método</div>
+    <div class="txt"><span class="stars">★★★★★</span> &nbsp;Resultados reales, empresas reales</div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section class="section">
+  <div class="wrap narrow center mxa">
+    <span class="eyebrow">¿Te suena familiar?</span>
+    <h2>No tienes un problema de esfuerzo.<br>Tienes un problema de <span class="gold">estructura.</span></h2>
+    <div class="divisor"></div>
+    <p class="mxa" style="margin-bottom:var(--s3)">Llevas años sosteniendo tu negocio con tus propias manos. Si tú no estás, no se vende, no se decide, no avanza. Contrataste gente y terminaste haciendo lo mismo. Creciste en facturación, pero <span class="hl">perdiste tu tiempo, tu calma y tu vida personal</span> en el camino.</p>
+    <p class="lead mxa" style="color:var(--blanco)"><b>No te falta trabajo. Te falta un sistema que trabaje sin ti.</b></p>
+    <p class="mxa" style="margin-top:var(--s3);font-size:15px;color:var(--gris-tenue)">Y cada mes que pasa igual es un mes más atado a la operación, no construyendo la empresa que sí puede funcionar sin ti.</p>
+  </div>
+</section>
+
+<!-- EL GIRO -->
+<section class="section carbon">
+  <div class="wrap narrow center mxa">
+    <h2>Tener un negocio <span class="gris" style="color:var(--gris-tenue)">no es lo mismo</span> que<br>construir una <span class="gold">empresa.</span></h2>
+    <p class="lead mxa" style="margin:var(--s3) auto var(--s6)">Un negocio depende de su dueño. Una empresa funciona con estructura, procesos y un equipo que ejecuta sin que tú estés encima. El Método Annabell es la ruta para hacer ese salto.</p>
+    <p class="elegante grad-text mxa">"No se trata de trabajar más.<br>Se trata de construir mejor."</p>
+  </div>
+</section>
+
+<!-- MECANISMO: 5 FASES como VALUE-STACK -->
+<section class="section">
+  <div class="wrap center">
+    <span class="eyebrow">El método · paso a paso</span>
+    <h2>Las 5 fases para convertir tu<br>emprendimiento en una empresa</h2>
+    <p class="lead mxa" style="margin-top:var(--s3)">Esto es exactamente lo que trabajamos —y lo que logras— en cada fase. Avanzas solo cuando ejecutas.</p>
+  </div>
+  <div class="wrap">
+    <div class="grid g3" style="margin-top:var(--s8)">
+      <div class="fase">
+        <div class="top"><div class="n">1</div><div><span class="tag">Fase 1</span><h3>Ordena tu visión</h3></div></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Defines propósito y modelo de negocio</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Metas claras, medibles y alcanzables</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Sabes con exactitud hacia dónde vas</li>
+        </ul>
+        <div class="res"><b>Resultado:</b> claridad total de dirección.</div>
+      </div>
+      <div class="fase">
+        <div class="top"><div class="n">2</div><div><span class="tag">Fase 2</span><h3>Construye procesos</h3></div></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Procesos simples que ahorran tiempo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Reduces errores y retrabajo del equipo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> La operación deja de vivir en tu cabeza</li>
+        </ul>
+        <div class="res"><b>Resultado:</b> el negocio corre con sistema.</div>
+      </div>
+      <div class="fase">
+        <div class="top"><div class="n">3</div><div><span class="tag">Fase 3</span><h3>Aprende a delegar</h3></div></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Formas a tu equipo con criterio</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Sistema de delegación que sí funciona</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Dejas de ser el cuello de botella</li>
+        </ul>
+        <div class="res"><b>Resultado:</b> recuperas tu tiempo.</div>
+      </div>
+      <div class="fase">
+        <div class="top"><div class="n">4</div><div><span class="tag">Fase 4</span><h3>Lidera personas</h3></div></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Liderazgo para alinear al equipo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Inspiras, motivas y das dirección</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tu visión la ejecutan otros</li>
+        </ul>
+        <div class="res"><b>Resultado:</b> lideras, ya no operas.</div>
+      </div>
+      <div class="fase">
+        <div class="top"><div class="n">5</div><div><span class="tag">Fase 5</span><h3>Un sistema que mejora solo</h3></div></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Indicadores y mejora continua</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Optimización constante de la operación</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Crece incluso cuando tú no estás</li>
+        </ul>
+        <div class="res"><b>Resultado:</b> una empresa, no un autoempleo.</div>
+      </div>
+      <div class="fase" style="justify-content:center;align-items:center;text-align:center;border-style:dashed">
+        <p style="color:var(--blanco);font-weight:700;font-size:18px;margin-bottom:14px">¿En qué fase está tu negocio hoy?</p>
+        <p style="font-size:15px;margin-bottom:18px">Lo descubrimos juntos en el diagnóstico.</p>
+        <a href="#postular" class="btn btn-oro">Quiero postular →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="wrap center">
+    <h2>Tu negocio ya factura.<br>Es hora de que <span class="gold">funcione sin ti.</span></h2>
+    <p class="lead mxa">El primer paso es postular. Sin compromiso: solo conocemos tu caso.</p>
+    <a href="#postular" class="btn btn-oro btn-lg">Quiero postular a un cupo</a>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="section carbon">
+  <div class="wrap center">
+    <span class="eyebrow">El proceso</span>
+    <h2>Cómo trabajamos juntos</h2>
+    <p class="lead mxa" style="margin-top:var(--s3)">Un camino claro, sin sorpresas. Sabes exactamente qué pasa en cada paso.</p>
+  </div>
+  <div class="wrap">
+    <div class="grid g4 steps" style="margin-top:var(--s8)">
+      <div class="card"><div class="num"></div><h3>Postulas</h3><p style="font-size:15.5px">Dejas tus datos en 2 minutos. Sin compromiso, solo para conocer tu caso.</p></div>
+      <div class="card"><div class="num"></div><h3>Diagnóstico</h3><p style="font-size:15.5px">Te contactamos por WhatsApp para entender tu negocio y ver si hay encaje real.</p></div>
+      <div class="card"><div class="num"></div><h3>Mentoría 1:1</h3><p style="font-size:15.5px">Avanzas por las fases en sesiones personalizadas, al ritmo de tu ejecución.</p></div>
+      <div class="card"><div class="num"></div><h3>Escalas</h3><p style="font-size:15.5px">Implementas, mides y construyes la empresa que funciona aunque tú no estés.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTORIDAD -->
+<section class="section">
+  <div class="wrap">
+    <div class="autoridad">
+      <div class="foto"><span>Foto · Annabell Aguedo</span></div>
+      <div>
+        <span class="eyebrow">Conoce a tu mentora</span>
+        <h2>Yo también fui mi propio<br><span class="gold">cuello de botella.</span></h2>
+        <p style="margin-top:var(--s3)">Soy <b style="color:var(--blanco)">Annabell Aguedo.</b> Construí mi clínica desde cero. Durante años trabajé sin parar: cada decisión, cada problema, cada urgencia pasaba por mí. Crecía en facturación, pero no tenía vida.</p>
+        <p style="margin-top:var(--s2)">Hasta que entendí algo: no necesitaba esforzarme más, necesitaba <span class="hl">estructura</span>. Ordené, creé procesos, delegué de verdad… y escalé mi clínica <span class="gold">6× en 3 años</span> — recuperando mi tiempo.</p>
+        <blockquote class="bigquote">No necesitas trabajar más horas.<br>Necesitas una estructura que trabaje por ti.</blockquote>
+        <p style="font-size:15px;color:var(--gris-tenue)">No soy coach de teoría. Soy mentora de ejecución: te acompaño a hacer el mismo salto, paso a paso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="section carbon">
+  <div class="wrap center">
+    <span class="eyebrow">Lo que dicen</span>
+    <h2>Empresarios reales, resultados reales</h2>
+  </div>
+  <div class="wrap">
+    <div class="grid g3" style="margin-top:var(--s8)">
+      <div class="testi"><div class="stars">★★★★★</div><p class="q">"En dos meses dejé de estar en cada decisión. Mi equipo resuelve sin mí y por fin tomé vacaciones sin que el negocio se cayera."</p><div class="who"><div class="av">M</div><div><b>María G.</b><span>Clínica dental · Lima</span></div></div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p class="q">"Pasé de apagar incendios todo el día a tener procesos. Facturo 40% más trabajando menos horas. El cambio fue de estructura, no de esfuerzo."</p><div class="who"><div class="av">C</div><div><b>Carlos T.</b><span>Retail · 8 empleados</span></div></div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p class="q">"Annabell no te da teoría: te hace ejecutar. Cada sesión salí con acciones claras. Hoy mi negocio funciona como empresa."</p><div class="who"><div class="av">L</div><div><b>Laura M.</b><span>Servicios · Arequipa</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUIÉN -->
+<section class="section">
+  <div class="wrap center"><h2>¿Es esto para ti?</h2><div class="divisor"></div>
+    <p class="lead mxa">Sé honesto contigo: esta mentoría funciona para quien ejecuta, no para quien solo se informa.</p>
+  </div>
+  <div class="wrap" style="margin-top:var(--s8)">
+    <div class="pq">
+      <div class="pq-col si">
+        <h3>✓ Sí es para ti si…</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Ya vendes y facturas, pero el negocio depende de ti.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Trabajas muchas horas y aun así no avanzas como quieres.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Quieres delegar, ordenar y escalar sin perder tu vida.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Estás listo para ejecutar, no solo para "informarte".</li>
+        </ul>
+      </div>
+      <div class="pq-col no">
+        <h3>✕ No es para ti si…</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Recién tienes una idea y aún no vendes nada.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Buscas una fórmula mágica sin trabajo.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> No estás dispuesto a invertir tiempo ni recursos.</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Quieres resultados sin rendir cuentas de tu ejecución.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECIONES -->
+<section class="section carbon">
+  <div class="wrap center">
+    <span class="eyebrow">Sé lo que estás pensando</span>
+    <h2>Resolvamos tus dudas ahora</h2>
+  </div>
+  <div class="wrap" style="margin-top:var(--s8)">
+    <div class="grid g2">
+      <div class="obj"><p class="d">"Ya probé cursos y coaches y no funcionó."</p><p class="a">Esto <b class="gold">no es un curso.</b> Es mentoría 1:1 de ejecución: no acumulas videos, ejecutas con acompañamiento real y rendición de cuentas.</p></div>
+      <div class="obj"><p class="d">"No tengo tiempo para una mentoría."</p><p class="a">Precisamente por eso. El método <b class="gold">te devuelve el tiempo</b>: construimos el sistema que hace que el negocio no dependa de cada hora tuya.</p></div>
+      <div class="obj"><p class="d">"¿Y si no es para mi tipo de negocio?"</p><p class="a">Por eso hay un <b class="gold">diagnóstico previo.</b> Si no hay encaje, te lo decimos. Y existe una línea especializada para sector salud.</p></div>
+      <div class="obj"><p class="d">"¿Cuánto cuesta? Suena caro."</p><p class="a">Hay niveles según tu etapa, con <b class="gold">precio de lanzamiento.</b> No es un gasto: es estructura que se paga sola al dejar de perder tiempo y dinero.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIEW GRATIS -->
+<section class="section">
+  <div class="wrap narrow mxa">
+    <div class="preview-box">
+      <span class="eyebrow">Antes de decidir</span>
+      <h2 style="font-size:clamp(24px,3vw,34px)">¿Quieres una muestra del método?</h2>
+      <p class="lead mxa" style="margin:var(--s3) auto var(--s6)">Mira el video de presentación y juzga por ti mismo cómo trabaja Annabell. Sin dar tus datos, sin compromiso.</p>
+      <a href="#" class="btn btn-ghost btn-lg">▶ Ver el video gratis</a>
+    </div>
+  </div>
+</section>
+
+<!-- OFERTA -->
+<section class="section carbon">
+  <div class="wrap narrow center mxa">
+    <span class="eyebrow">Apertura oficial de cupos</span>
+    <h2>Acompañamiento 1:1 según el<br>nivel de tu negocio</h2>
+    <p class="lead mxa" style="margin:var(--s3) auto 0">Desde quien recién ordena su negocio hasta organizaciones que escalan con liderazgo. Esta es una etapa de lanzamiento: <span class="hl">precios preferentes y cupos muy limitados.</span></p>
+    <div class="chips">
+      <span class="badge dot">Solo 2 cupos · línea general</span>
+      <span class="badge dot">Solo 1 cupo · línea salud</span>
+      <span class="badge">Precio de lanzamiento</span>
+    </div>
+    <p style="font-size:14px;color:var(--gris-tenue);margin-top:var(--s4);font-style:italic">El nivel y la inversión se definen contigo según tu negocio, después de postular.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL + FORM -->
+<section class="section" id="postular">
+  <div class="wrap center">
+    <h2>Postula a tu cupo</h2>
+    <p class="lead mxa">Déjanos tus datos. Te contactamos por WhatsApp para conocer tu negocio y ver si el Método Annabell es para ti.</p>
+    <div class="form">
+      <!-- Tally embed -->
+      <iframe data-tally-src="https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="200" frameborder="0" marginheight="0" marginwidth="0" title="Registro"></iframe>
+      <p style="text-align:center;font-size:13px;color:var(--gris-tenue);margin-top:12px">Cupos limitados. Responderemos por WhatsApp para completar tu perfil.</p>
+    </div>
+    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section carbon">
+  <div class="wrap center"><h2>Preguntas frecuentes</h2><div class="divisor"></div></div>
+  <div class="wrap">
+    <div class="faq">
+      <details open><summary>¿Cuánto cuesta? <span class="plus">+</span></summary><p>Hay distintos niveles según el tamaño de tu negocio, con precio de lanzamiento. Definimos el tuyo al conocer tu caso, después de postular.</p></details>
+      <details><summary>¿Cuánto dura? <span class="plus">+</span></summary><p>Es mentoría 1:1 por sesiones; el ritmo depende de tu ejecución. Sin avanzar las tareas, no abrimos la siguiente sesión.</p></details>
+      <details><summary>¿Es para mi rubro? <span class="plus">+</span></summary><p>Trabajamos negocios de todo tipo y tenemos una línea especializada en sector salud.</p></details>
+      <details><summary>¿Es un curso grabado? <span class="plus">+</span></summary><p>No. Es mentoría personalizada 1:1 con Annabell. Por eso los cupos son limitados.</p></details>
+      <details><summary>¿Qué pasa después de postular? <span class="plus">+</span></summary><p>Te escribimos por WhatsApp con unas preguntas para conocer tu negocio y, si hay encaje, agendamos.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <a class="wordmark" href="#">MÉTODO <b class="grad-text">ANNABELL</b></a>
+    <p class="mxa" style="color:var(--gris);font-size:14px">De autoempleado a empresario.</p>
+    <small>© 2026 Método Annabell. Mentoría de ejecución empresarial.</small>
+  </div>
+</footer>
+
+</body>
+</html>

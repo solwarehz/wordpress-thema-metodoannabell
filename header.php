@@ -13,9 +13,7 @@
 <nav class="site-nav" role="navigation" aria-label="Menú principal">
   <div class="container nav-inner">
 
-    <a href="<?php echo esc_url(home_url('/')); ?>" class="nav-logo" aria-label="Inicio">
-      <span>A·N·N·A·B·E·L·L</span>
-    </a>
+    <?php echo annabell_logo_html(true, 'nav-logo-img'); ?>
 
     <?php if (!is_page_template('page-landing.php')): ?>
     <?php wp_nav_menu([
