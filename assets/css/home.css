@@ -31,7 +31,7 @@
 .home-page h1{font-size:clamp(34px,5vw,56px);font-weight:800}
 .home-page h2{font-size:clamp(26px,3.4vw,42px);font-weight:800}
 .home-page h3{font-size:20px;font-weight:700;letter-spacing:-0.01em}
-.home-page .eyebrow{font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--oro);display:inline-block;margin-bottom:var(--s3)}
+.home-page .eyebrow{font-weight:700;font-size:clamp(15px,1.15vw,17px);letter-spacing:2px;text-transform:uppercase;color:var(--oro);display:inline-block;margin-bottom:var(--s3)}
 .home-page .lead{font-size:clamp(18px,2vw,21px);color:var(--gris);line-height:1.7}
 .home-page p{color:var(--gris);max-width:68ch}
 .home-page .gold{color:var(--oro)}
@@ -96,8 +96,11 @@ body.lb-open{overflow:hidden}
 /* ===== HERO ===== */
 .home-hero{padding:var(--s12) 0;background:radial-gradient(ellipse 70% 60% at 70% 0%,rgba(212,175,55,.10),transparent 60%),linear-gradient(180deg,#0a0a0a,#0c0c0c)}
 .home-hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s8);align-items:center}
-.home-hero h1{margin:var(--s2) 0 var(--s3)}
+.home-hero .eyebrow{margin-bottom:12px}
+.home-hero h1{margin:var(--s1) 0 var(--s3)}
+/* Botones: en línea si hay espacio; si no, uno debajo del otro */
 .home-hero .cta{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s6)}
+.home-hero .cta .btn{flex:0 1 auto}
 .home-hero .portrait{max-width:420px;margin-left:auto;width:100%;position:relative}
 
 /* Líneas decorativas reutilizables (se pegan como el span dorado, donde quiera) */
@@ -119,8 +122,8 @@ body.lb-open{overflow:hidden}
 .home-hero .hero-cards .car-item:first-child .hcard{border-left:0}
 .home-hero .hcard .ico{width:34px;height:34px;color:var(--oro)}
 .home-hero .hcard .ico svg{width:100%;height:100%;display:block}
-.home-hero .hcard h3{font-size:16px;font-weight:700;color:var(--oro-claro)}
-.home-hero .hcard p{font-size:13.5px;color:var(--gris);line-height:1.55;max-width:none}
+.home-hero .hcard h3{font-size:clamp(17px,1.25vw,19px);font-weight:700;color:var(--oro-claro)}
+.home-hero .hcard p{font-size:clamp(16px,1.05vw,18px);color:var(--gris);line-height:1.6;max-width:none}
 
 /* ===== Split (foto/texto) ===== */
 .home-page .split{display:grid;grid-template-columns:1fr 1fr;gap:var(--s8);align-items:center}
