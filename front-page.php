@@ -42,7 +42,7 @@ $arrows =
       <div>
         <span class="eyebrow"><?php echo esc_html(home_f('home_hero_eyebrow')); ?></span>
         <h1><?php echo wp_kses_post(home_f('home_hero_title')); ?></h1>
-        <p class="lead"><?php echo esc_html(home_f('home_hero_text')); ?></p>
+        <p class="lead"><?php echo wp_kses_post(home_f('home_hero_text')); ?></p>
         <div class="cta">
           <a href="<?php echo esc_url(home_f('home_hero_btn1_url', '#historia')); ?>" class="btn btn-oro btn-lg"><?php echo esc_html(home_f('home_hero_btn1_text')); ?></a>
           <a href="<?php echo esc_url(home_f('home_hero_btn2_url', '/mentoria/')); ?>" class="btn btn-ghost btn-lg"><?php echo esc_html(home_f('home_hero_btn2_text')); ?></a>
@@ -61,8 +61,8 @@ $arrows =
     <span class="eyebrow"><?php echo esc_html(home_f('home_historia_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_historia_title')); ?></h2>
     <div class="divisor"></div>
-    <p class="mxa"><?php echo esc_html(home_f('home_historia_text')); ?></p>
-    <?php if ($q = home_f('home_historia_quote')): ?><p class="elegante grad-text mxa" style="margin-top:var(--s6)">"<?php echo esc_html($q); ?>"</p><?php endif; ?>
+    <p class="mxa"><?php echo wp_kses_post(home_f('home_historia_text')); ?></p>
+    <?php if ($q = home_f('home_historia_quote')): ?><p class="elegante grad-text mxa" style="margin-top:var(--s6)">"<?php echo wp_kses_post($q); ?>"</p><?php endif; ?>
   </div>
   <div class="wrap">
     <div class="stats" style="margin-top:var(--s8)">
@@ -80,7 +80,7 @@ $arrows =
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_foto_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_foto_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_foto_text')); ?></p>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_foto_text')); ?></p>
   </div>
   <div class="wrap"><?php echo home_carousel('home_foto', [
     $A('_annabell_photography/whorkshop_fotografia_annabell_aguedo.jpg'),
@@ -100,7 +100,7 @@ $arrows =
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_goldent_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_goldent_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_goldent_text')); ?></p>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_goldent_text')); ?></p>
   </div>
   <div class="wrap"><?php echo home_carousel('home_goldent', [
     $A('clinica_goldent/local_clinica_goldent.jpg'),
@@ -118,7 +118,7 @@ $arrows =
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_ponencias_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_ponencias_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_ponencias_intro')); ?></p>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_ponencias_intro')); ?></p>
   </div>
   <div class="wrap"><?php echo home_carousel('home_ponencias', [
     $A('annabell_aguedo/seminario_annabell_aguedo.jpg'),
@@ -136,7 +136,7 @@ $arrows =
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_podcast_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_podcast_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_podcast_intro')); ?></p>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_podcast_intro')); ?></p>
   </div>
   <div class="wrap"><?php echo home_carousel('home_podcast', [
     'https://youtu.be/-o_mwccEBy8',
@@ -156,7 +156,7 @@ $arrows =
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_recon_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_recon_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_recon_feature_text')); ?></p>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_recon_feature_text')); ?></p>
   </div>
   <div class="wrap"><?php echo home_carousel('home_recon', [
     $A('annabell_aguedo/reconocimiento__annabell_aguedo.jpg'),
@@ -188,8 +188,8 @@ $arrows =
 <section class="section" id="metodo">
   <div class="wrap center" style="margin-bottom:var(--s8)">
     <span class="eyebrow"><?php echo esc_html(home_f('home_metodo_eyebrow')); ?></span>
-    <h2><?php echo esc_html(home_f('home_metodo_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo esc_html(home_f('home_metodo_intro')); ?></p>
+    <h2><?php echo wp_kses_post(home_f('home_metodo_title')); ?></h2>
+    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_metodo_intro')); ?></p>
   </div>
   <div class="wrap">
     <?php $metodo = [

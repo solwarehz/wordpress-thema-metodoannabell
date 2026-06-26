@@ -194,9 +194,16 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $add = function (string $id, string $section, string $label, string $default = '', string $type = 'text') use ($wpc) {
         $D = home_defaults();           // fuente única: el default del editor = el del front-end
         if (isset($D[$id])) $default = $D[$id];
-        $san = $type === 'checkbox' ? 'wp_validate_boolean' : ($type === 'textarea' ? 'sanitize_textarea_field' : ($type === 'url' ? 'esc_url_raw' : 'sanitize_text_field'));
+        // 'html' = control textarea que CONSERVA el HTML al guardar (para <span class="gold">…</span> y <br>).
+        // Los demás tipos siguen limpiando el HTML (sanitize_text/textarea_field).
+        $control = $type === 'html' ? 'textarea' : ($type === 'url' ? 'url' : $type);
+        $san = $type === 'checkbox' ? 'wp_validate_boolean'
+             : ($type === 'html'     ? 'wp_kses_post'
+             : ($type === 'textarea' ? 'sanitize_textarea_field'
+             : ($type === 'url'      ? 'esc_url_raw'
+             : 'sanitize_text_field')));
         $wpc->add_setting($id, ['default' => $default, 'transport' => 'refresh', 'sanitize_callback' => $san]);
-        $wpc->add_control($id, ['label' => $label, 'section' => $section, 'type' => $type === 'url' ? 'url' : $type]);
+        $wpc->add_control($id, ['label' => $label, 'section' => $section, 'type' => $control]);
     };
     $img = function (string $id, string $section, string $label) use ($wpc) {
         $wpc->add_setting($id, ['default' => '', 'transport' => 'refresh', 'sanitize_callback' => 'esc_url_raw']);
@@ -224,8 +231,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_hero', '② Hero', 20);
     $add('show_home_hero',   'home_hero', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_hero_eyebrow','home_hero', 'Etiqueta', '');
-    $add('home_hero_title',  'home_hero', 'Título (permite <span class="gold">)', '', 'textarea');
-    $add('home_hero_text',   'home_hero', 'Texto', '', 'textarea');
+    $add('home_hero_title',  'home_hero', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_hero_text',   'home_hero', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_hero_btn1_text','home_hero', 'Botón 1 — Texto', '');
     $add('home_hero_btn1_url', 'home_hero', 'Botón 1 — Enlace', '#historia', 'url');
     $add('home_hero_btn2_text','home_hero', 'Botón 2 — Texto', '');
@@ -236,9 +243,9 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_historia', '③ Su historia + cifras', 30);
     $add('show_home_historia','home_historia', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_historia_eyebrow','home_historia', 'Etiqueta');
-    $add('home_historia_title','home_historia', 'Título', '', 'textarea');
-    $add('home_historia_text','home_historia', 'Texto', '', 'textarea');
-    $add('home_historia_quote','home_historia', 'Frase destacada', '', 'textarea');
+    $add('home_historia_title','home_historia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_historia_text','home_historia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_historia_quote','home_historia', 'Frase destacada · dorado: <span class="gold">texto</span>', '', 'html');
     for ($n = 1; $n <= 4; $n++) {
         $add("home_cifra{$n}_num",   'home_historia', "Cifra {$n} — Número");
         $add("home_cifra{$n}_label", 'home_historia', "Cifra {$n} — Etiqueta");
@@ -248,8 +255,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_fotografia', '④ Fotografía', 40);
     $add('show_home_fotografia','home_fotografia', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_foto_eyebrow','home_fotografia', 'Etiqueta');
-    $add('home_foto_title','home_fotografia', 'Título', '', 'textarea');
-    $add('home_foto_text','home_fotografia', 'Texto', '', 'textarea');
+    $add('home_foto_title','home_fotografia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_foto_text','home_fotografia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_foto_url','home_fotografia', 'Botón — Enlace (Facebook)', '', 'url');
     $carousel('home_fotografia', 'home_foto');
 
@@ -257,8 +264,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_goldent', '⑤ Clínica Goldent', 50);
     $add('show_home_goldent','home_goldent', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_goldent_eyebrow','home_goldent', 'Etiqueta');
-    $add('home_goldent_title','home_goldent', 'Título', '', 'textarea');
-    $add('home_goldent_text','home_goldent', 'Texto', '', 'textarea');
+    $add('home_goldent_title','home_goldent', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_goldent_text','home_goldent', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_goldent_fb_text','home_goldent', 'Botón — Texto');
     $add('home_goldent_fb_url','home_goldent', 'Botón — URL (Facebook)', '', 'url');
     $carousel('home_goldent', 'home_goldent');
@@ -267,16 +274,16 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_ponencias', '⑥ Ponencias', 60);
     $add('show_home_ponencias','home_ponencias', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_ponencias_eyebrow','home_ponencias', 'Etiqueta');
-    $add('home_ponencias_title','home_ponencias', 'Título');
-    $add('home_ponencias_intro','home_ponencias', 'Intro', '', 'textarea');
+    $add('home_ponencias_title','home_ponencias', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_ponencias_intro','home_ponencias', 'Intro · dorado: <span class="gold">texto</span>', '', 'html');
     $carousel('home_ponencias', 'home_ponencias');
 
     // PODCAST
     $sec('home_podcast', '⑦ Podcast Raíz Firme', 70);
     $add('show_home_podcast','home_podcast', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_podcast_eyebrow','home_podcast', 'Etiqueta');
-    $add('home_podcast_title','home_podcast', 'Título', '', 'textarea');
-    $add('home_podcast_intro','home_podcast', 'Intro', '', 'textarea');
+    $add('home_podcast_title','home_podcast', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_podcast_intro','home_podcast', 'Intro · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_podcast_channel','home_podcast', 'Botón — Enlace al canal', '', 'url');
     $carousel('home_podcast', 'home_podcast');
 
@@ -284,8 +291,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_recon', '⑧ Reconocimientos', 80);
     $add('show_home_recon','home_recon', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_recon_eyebrow','home_recon', 'Etiqueta');
-    $add('home_recon_title','home_recon', 'Título', '', 'textarea');
-    $add('home_recon_feature_text','home_recon', 'Texto', '', 'textarea');
+    $add('home_recon_title','home_recon', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_recon_feature_text','home_recon', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $carousel('home_recon', 'home_recon');
 
     // CONECTA (redes — modular, detecta el logo por la URL)
@@ -301,8 +308,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $sec('home_metodo', '⑩ El Método (cierre)', 100);
     $add('show_home_metodo','home_metodo', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_metodo_eyebrow','home_metodo', 'Etiqueta');
-    $add('home_metodo_title','home_metodo', 'Título');
-    $add('home_metodo_intro','home_metodo', 'Texto', '', 'textarea');
+    $add('home_metodo_title','home_metodo', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_metodo_intro','home_metodo', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     for ($n = 1; $n <= 8; $n++) $img("home_metodo_letter{$n}_img", 'home_metodo', "Letra {$n} — Foto (opcional)");
     $add('home_metodo_btn_text','home_metodo', 'Botón — Texto');
     $add('home_metodo_btn_url','home_metodo', 'Botón — Enlace', '/mentoria/', 'url');
