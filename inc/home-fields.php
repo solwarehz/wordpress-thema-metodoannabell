@@ -18,6 +18,19 @@ function home_defaults(): array {
         'home_hero_text' => 'No nació empresaria: se hizo. De la fotografía al frente de una clínica que dirige y escala — hoy acompaña a otros emprendedores a dar el mismo salto, con método.',
         'home_hero_btn1_text' => 'Conoce su historia', 'home_hero_btn1_url' => '#historia',
         'home_hero_btn2_text' => 'La mentoría', 'home_hero_btn2_url' => '/mentoria/',
+        // Cards del hero (defaults = diseño del cliente; íconos SVG inline editables)
+        'home_card1_title' => 'Empresaria',
+        'home_card1_desc'  => 'He creado y gestionado empresas desde cero con visión y estrategia.',
+        'home_card1_icon'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><polyline points="4 16 9 11 13 14 20 6"/><polyline points="15 6 20 6 20 11"/></svg>',
+        'home_card2_title' => 'Líder de equipos',
+        'home_card2_desc'  => 'Formo y lidero equipos enfocados en resultados, cultura y crecimiento.',
+        'home_card2_icon'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.2"/><path d="M16 14c3 0 5 2 5 5"/></svg>',
+        'home_card3_title' => 'Mentora',
+        'home_card3_desc'  => 'Acompaño a mujeres y emprendedores a construir negocios sostenibles.',
+        'home_card3_icon'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg>',
+        'home_card4_title' => 'Estratega',
+        'home_card4_desc'  => 'Transformo ideas en sistemas escalables con indicadores y decisiones acertadas.',
+        'home_card4_icon'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg>',
         'home_historia_eyebrow' => 'Su trayectoria',
         'home_historia_title' => 'De una pasión a un método',
         'home_historia_text' => 'Annabell no nació empresaria: se hizo. Siendo mamá descubrió la fotografía y la convirtió en su primer negocio rentable. Años después transformó su clínica dental aplicando método y estrategia. En el camino encontró algo aún más valioso: el equilibrio entre su vida y su trabajo.',
@@ -183,6 +196,48 @@ function home_social_icon(string $url): string {
     return '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' . $p . '</svg>';
 }
 
+/* Sanitiza un SVG pegado por el cliente: solo etiquetas/atributos de dibujo
+   (sin <script>, sin on* handlers). Se usa al guardar y al imprimir. */
+function home_kses_svg(string $svg): string {
+    $svg = trim($svg);
+    if ($svg === '') return '';
+    $attr = ['fill'=>true,'stroke'=>true,'stroke-width'=>true,'stroke-linecap'=>true,'stroke-linejoin'=>true,'stroke-miterlimit'=>true,'stroke-dasharray'=>true,'transform'=>true,'opacity'=>true,'class'=>true,'style'=>true];
+    $allowed = [
+        'svg'      => array_merge($attr, ['xmlns'=>true,'viewbox'=>true,'width'=>true,'height'=>true,'aria-hidden'=>true,'role'=>true,'focusable'=>true]),
+        'g'        => $attr,
+        'path'     => array_merge($attr, ['d'=>true]),
+        'circle'   => array_merge($attr, ['cx'=>true,'cy'=>true,'r'=>true]),
+        'ellipse'  => array_merge($attr, ['cx'=>true,'cy'=>true,'rx'=>true,'ry'=>true]),
+        'rect'     => array_merge($attr, ['x'=>true,'y'=>true,'width'=>true,'height'=>true,'rx'=>true,'ry'=>true]),
+        'line'     => array_merge($attr, ['x1'=>true,'y1'=>true,'x2'=>true,'y2'=>true]),
+        'polyline' => array_merge($attr, ['points'=>true]),
+        'polygon'  => array_merge($attr, ['points'=>true]),
+        'defs'     => [], 'title' => [], 'desc' => [],
+    ];
+    return wp_kses($svg, $allowed);
+}
+
+/* Cards del hero (hasta 6 · ícono SVG + título + descripción).
+   Reusa el carrusel (carousel.js) → autoplay como las demás secciones. */
+function home_hero_cards(): string {
+    $items = '';
+    for ($n = 1; $n <= 6; $n++) {
+        $icon  = home_f("home_card{$n}_icon");
+        $title = home_f("home_card{$n}_title");
+        $desc  = home_f("home_card{$n}_desc");
+        if ($icon === '' && $title === '' && $desc === '') continue;
+        $items .= '<div class="car-item"><div class="hcard">'
+                . ($icon  ? '<span class="ico">' . home_kses_svg($icon) . '</span>' : '')
+                . ($title ? '<h3>' . wp_kses_post($title) . '</h3>' : '')
+                . ($desc  ? '<p>'  . wp_kses_post($desc)  . '</p>'  : '')
+                . '</div></div>';
+    }
+    if ($items === '') return '';
+    return '<div class="hero-cards"><div class="carousel" data-autoplay="3500">'
+         . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
+         . '<div class="car-dots"></div></div></div>';
+}
+
 /* ── Registro en el Customizer ── */
 add_action('customize_register', function (WP_Customize_Manager $wpc) {
 
@@ -196,12 +251,13 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
         if (isset($D[$id])) $default = $D[$id];
         // 'html' = control textarea que CONSERVA el HTML al guardar (para <span class="gold">…</span> y <br>).
         // Los demás tipos siguen limpiando el HTML (sanitize_text/textarea_field).
-        $control = $type === 'html' ? 'textarea' : ($type === 'url' ? 'url' : $type);
+        $control = in_array($type, ['html','svg'], true) ? 'textarea' : ($type === 'url' ? 'url' : $type);
         $san = $type === 'checkbox' ? 'wp_validate_boolean'
              : ($type === 'html'     ? 'wp_kses_post'
+             : ($type === 'svg'      ? 'home_kses_svg'
              : ($type === 'textarea' ? 'sanitize_textarea_field'
              : ($type === 'url'      ? 'esc_url_raw'
-             : 'sanitize_text_field')));
+             : 'sanitize_text_field'))));
         $wpc->add_setting($id, ['default' => $default, 'transport' => 'refresh', 'sanitize_callback' => $san]);
         $wpc->add_control($id, ['label' => $label, 'section' => $section, 'type' => $control]);
     };
@@ -230,7 +286,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // HERO
     $sec('home_hero', '② Hero', 20);
     $add('show_home_hero',   'home_hero', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_hero_eyebrow','home_hero', 'Etiqueta', '');
+    $add('home_hero_eyebrow','home_hero', 'Etiqueta · línea: <span class="linea"></span>', '', 'html');
     $add('home_hero_title',  'home_hero', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_hero_text',   'home_hero', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_hero_btn1_text','home_hero', 'Botón 1 — Texto', '');
@@ -238,11 +294,17 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $add('home_hero_btn2_text','home_hero', 'Botón 2 — Texto', '');
     $add('home_hero_btn2_url', 'home_hero', 'Botón 2 — Enlace', '/mentoria/', 'url');
     $media('home_hero', 'home_hero', 'Retrato/Hero');
+    // Cards del hero (hasta 6 · llena las que quieras, vacías no se muestran)
+    for ($n = 1; $n <= 6; $n++) {
+        $add("home_card{$n}_icon",  'home_hero', "Card {$n} — Ícono (pega tu código SVG · vacío = sin ícono)", '', 'svg');
+        $add("home_card{$n}_title", 'home_hero', "Card {$n} — Título", '', 'html');
+        $add("home_card{$n}_desc",  'home_hero', "Card {$n} — Descripción", '', 'html');
+    }
 
     // HISTORIA (incluye las cifras)
     $sec('home_historia', '③ Su historia + cifras', 30);
     $add('show_home_historia','home_historia', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_historia_eyebrow','home_historia', 'Etiqueta');
+    $add('home_historia_eyebrow','home_historia', 'Etiqueta', '', 'html');
     $add('home_historia_title','home_historia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_historia_text','home_historia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_historia_quote','home_historia', 'Frase destacada · dorado: <span class="gold">texto</span>', '', 'html');
@@ -254,7 +316,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // FOTOGRAFÍA
     $sec('home_fotografia', '④ Fotografía', 40);
     $add('show_home_fotografia','home_fotografia', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_foto_eyebrow','home_fotografia', 'Etiqueta');
+    $add('home_foto_eyebrow','home_fotografia', 'Etiqueta', '', 'html');
     $add('home_foto_title','home_fotografia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_foto_text','home_fotografia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_foto_url','home_fotografia', 'Botón — Enlace (Facebook)', '', 'url');
@@ -263,7 +325,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // GOLDENT
     $sec('home_goldent', '⑤ Clínica Goldent', 50);
     $add('show_home_goldent','home_goldent', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_goldent_eyebrow','home_goldent', 'Etiqueta');
+    $add('home_goldent_eyebrow','home_goldent', 'Etiqueta', '', 'html');
     $add('home_goldent_title','home_goldent', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_goldent_text','home_goldent', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_goldent_fb_text','home_goldent', 'Botón — Texto');
@@ -273,7 +335,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // PONENCIAS
     $sec('home_ponencias', '⑥ Ponencias', 60);
     $add('show_home_ponencias','home_ponencias', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_ponencias_eyebrow','home_ponencias', 'Etiqueta');
+    $add('home_ponencias_eyebrow','home_ponencias', 'Etiqueta', '', 'html');
     $add('home_ponencias_title','home_ponencias', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_ponencias_intro','home_ponencias', 'Intro · dorado: <span class="gold">texto</span>', '', 'html');
     $carousel('home_ponencias', 'home_ponencias');
@@ -281,7 +343,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // PODCAST
     $sec('home_podcast', '⑦ Podcast Raíz Firme', 70);
     $add('show_home_podcast','home_podcast', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_podcast_eyebrow','home_podcast', 'Etiqueta');
+    $add('home_podcast_eyebrow','home_podcast', 'Etiqueta', '', 'html');
     $add('home_podcast_title','home_podcast', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_podcast_intro','home_podcast', 'Intro · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_podcast_channel','home_podcast', 'Botón — Enlace al canal', '', 'url');
@@ -290,7 +352,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // RECONOCIMIENTOS
     $sec('home_recon', '⑧ Reconocimientos', 80);
     $add('show_home_recon','home_recon', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_recon_eyebrow','home_recon', 'Etiqueta');
+    $add('home_recon_eyebrow','home_recon', 'Etiqueta', '', 'html');
     $add('home_recon_title','home_recon', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_recon_feature_text','home_recon', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $carousel('home_recon', 'home_recon');
@@ -307,7 +369,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // EL MÉTODO (cierre + CTA) — carrusel de las 8 letras
     $sec('home_metodo', '⑩ El Método (cierre)', 100);
     $add('show_home_metodo','home_metodo', '👁 Mostrar sección', '1', 'checkbox');
-    $add('home_metodo_eyebrow','home_metodo', 'Etiqueta');
+    $add('home_metodo_eyebrow','home_metodo', 'Etiqueta', '', 'html');
     $add('home_metodo_title','home_metodo', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_metodo_intro','home_metodo', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     for ($n = 1; $n <= 8; $n++) $img("home_metodo_letter{$n}_img", 'home_metodo', "Letra {$n} — Foto (opcional)");
