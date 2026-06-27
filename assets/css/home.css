@@ -125,6 +125,14 @@ body.lb-open{overflow:hidden}
 .home-hero .hcard h3{font-size:clamp(17px,1.25vw,19px);font-weight:700;color:var(--oro-claro)}
 .home-hero .hcard p{font-size:clamp(16px,1.05vw,18px);color:var(--gris);line-height:1.6;max-width:none}
 
+/* ③ Historia — tarjetas numeradas con foto (carrusel) */
+.home-page .historia-cards .tcard{display:flex;flex-direction:column;height:100%;text-align:center}
+.home-page .historia-cards .thead{position:relative}
+.home-page .historia-cards .thead .cover{aspect-ratio:4/3}
+.home-page .historia-cards .tnum{position:absolute;left:50%;bottom:-20px;transform:translateX(-50%);width:42px;height:42px;border-radius:50%;background:var(--grad-oro);color:var(--negro);font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;border:3px solid var(--carbon);box-shadow:0 6px 18px rgba(212,175,55,.4);z-index:2}
+.home-page .historia-cards h3{font-size:clamp(15px,1.1vw,17px);text-transform:uppercase;letter-spacing:1px;color:var(--oro-claro);margin-top:32px}
+.home-page .historia-cards p{font-size:clamp(15px,1vw,16px);color:var(--gris);line-height:1.55;margin-top:8px;max-width:none}
+
 /* ===== Split (foto/texto) ===== */
 .home-page .split{display:grid;grid-template-columns:1fr 1fr;gap:var(--s8);align-items:center}
 .home-page .split.rev .txt{order:2}

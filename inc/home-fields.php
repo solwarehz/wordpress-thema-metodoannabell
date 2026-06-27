@@ -59,10 +59,14 @@ function home_defaults(): array {
         'home_foto_stat2_num' => 'Lista de espera', 'home_foto_stat2_label' => 'de clientes',
         'home_foto_note' => 'Una etapa que le demostró que una pasión, con método, se vuelve un negocio.',
         'home_foto_url' => 'https://www.facebook.com/annabellphotography/',
-        'home_cifra1_num' => '6×', 'home_cifra1_label' => 'Crecimiento de la clínica',
-        'home_cifra2_num' => '+5,000', 'home_cifra2_label' => 'Seguidores en fotografía',
-        'home_cifra3_num' => '2', 'home_cifra3_label' => 'Negocios rentables construidos',
-        'home_cifra4_num' => '+15', 'home_cifra4_label' => 'Años emprendiendo',
+        // Tarjetas de trayectoria (③ Historia) — defaults de la referencia del cliente
+        'home_hist1_title' => 'Mis raíces',        'home_hist1_text' => 'Valores, disciplina y perseverancia que me formaron en casa.',
+        'home_hist2_title' => 'Mi formación',      'home_hist2_text' => 'La universidad me dio conocimiento, pero también me mostró el camino del esfuerzo constante.',
+        'home_hist3_title' => 'Mi propósito',      'home_hist3_text' => 'Ser mamá me enseñó a ver el mundo diferente y la fotografía me regaló creatividad y enfoque.',
+        'home_hist4_title' => 'Mi emprendimiento', 'home_hist4_text' => 'Emprender me enseñó a resolver, adaptarme y liderar con visión.',
+        'home_hist5_title' => 'Mi evolución',      'home_hist5_text' => 'Cada experiencia me llevó a crecer, a salir de mi zona de confort y expandir mi visión.',
+        'home_hist6_title' => 'Mi expertica',      'home_hist6_text' => 'La odontología y la especialidad me dieron estructura, técnica y el deseo de ayudar a más personas.',
+        'home_hist7_title' => 'Mi misión hoy',     'home_hist7_text' => 'Todo lo aprendido lo transformé en un método para acompañar a otras mujeres a construir la vida y el negocio que desean.',
         'home_metodo_eyebrow' => 'Su legado · la Annabell de hoy', 'home_metodo_title' => 'El Método A·N·N·A·B·E·L·L',
         'home_metodo_intro' => 'Pasiones convertidas en negocios rentables y el equilibrio entre vida y trabajo: ese camino de aprendizaje Annabell lo hizo método. Hoy lo comparte para que otros emprendedores no caminen a ciegas y acorten su camino al éxito.',
         'home_metodo_btn_text' => 'Conoce el Método Annabell', 'home_metodo_btn_url' => '/mentoria/',
@@ -238,6 +242,34 @@ function home_hero_cards(): string {
          . '<div class="car-dots"></div></div></div>';
 }
 
+/* Tarjetas de trayectoria (③ Historia · hasta 7 · número automático + foto 4:3 + título + texto).
+   Reusa el carrusel (carousel.js) → autoplay como las demás secciones. */
+function home_historia_cards(): string {
+    $items = ''; $idx = 0;
+    for ($n = 1; $n <= 7; $n++) {
+        $img   = home_img("home_hist{$n}_img");   // ya escapado (esc_url)
+        $title = home_f("home_hist{$n}_title");
+        $text  = home_f("home_hist{$n}_text");
+        if ($img === '' && $title === '' && $text === '') continue;
+        $idx++;
+        $cover = $img
+            ? '<div class="cover ar-4-3"><img src="' . $img . '" alt="' . esc_attr(wp_strip_all_tags($title)) . '" loading="lazy"></div>'
+            : '<div class="cover ar-4-3"><div class="ph">Foto</div></div>';
+        $items .= '<div class="car-item"><div class="tcard">'
+                . '<div class="thead">' . $cover . '<span class="tnum">' . $idx . '</span></div>'
+                . ($title ? '<h3>' . wp_kses_post($title) . '</h3>' : '')
+                . ($text  ? '<p>'  . wp_kses_post($text)  . '</p>'  : '')
+                . '</div></div>';
+    }
+    if ($items === '') return '';
+    $arrows =
+        '<button class="car-nav car-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' .
+        '<button class="car-nav car-next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>';
+    return '<div class="wrap" style="margin-top:var(--s8)"><div class="historia-cards"><div class="carousel" data-autoplay="3500">'
+         . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
+         . $arrows . '<div class="car-dots"></div></div></div></div>';
+}
+
 /* ── Registro en el Customizer ── */
 add_action('customize_register', function (WP_Customize_Manager $wpc) {
 
@@ -302,15 +334,17 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     }
 
     // HISTORIA (incluye las cifras)
-    $sec('home_historia', '③ Su historia + cifras', 30);
+    $sec('home_historia', '③ Su historia', 30);
     $add('show_home_historia','home_historia', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_historia_eyebrow','home_historia', 'Etiqueta', '', 'html');
     $add('home_historia_title','home_historia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_historia_text','home_historia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_historia_quote','home_historia', 'Frase destacada · dorado: <span class="gold">texto</span>', '', 'html');
-    for ($n = 1; $n <= 4; $n++) {
-        $add("home_cifra{$n}_num",   'home_historia', "Cifra {$n} — Número");
-        $add("home_cifra{$n}_label", 'home_historia', "Cifra {$n} — Etiqueta");
+    // Tarjetas de trayectoria (hasta 7 · número automático según orden)
+    for ($n = 1; $n <= 7; $n++) {
+        $img("home_hist{$n}_img",   'home_historia', "Tarjeta {$n} — Foto (4:3)");
+        $add("home_hist{$n}_title", 'home_historia', "Tarjeta {$n} — Título", '', 'html');
+        $add("home_hist{$n}_text",  'home_historia', "Tarjeta {$n} — Texto", '', 'html');
     }
 
     // FOTOGRAFÍA

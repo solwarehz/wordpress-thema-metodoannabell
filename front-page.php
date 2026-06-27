@@ -65,13 +65,7 @@ $arrows =
     <p class="mxa"><?php echo wp_kses_post(home_f('home_historia_text')); ?></p>
     <?php if ($q = home_f('home_historia_quote')): ?><p class="elegante grad-text mxa" style="margin-top:var(--s6)">"<?php echo wp_kses_post($q); ?>"</p><?php endif; ?>
   </div>
-  <div class="wrap">
-    <div class="stats" style="margin-top:var(--s8)">
-      <?php for ($n = 1; $n <= 4; $n++): if (!home_f("home_cifra{$n}_num")) continue; ?>
-      <div class="s"><b><?php echo esc_html(home_f("home_cifra{$n}_num")); ?></b><span><?php echo esc_html(home_f("home_cifra{$n}_label")); ?></span></div>
-      <?php endfor; ?>
-    </div>
-  </div>
+  <?php echo home_historia_cards(); ?>
 </section>
 <?php endif; ?>
 
