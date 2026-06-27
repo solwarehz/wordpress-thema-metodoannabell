@@ -48,6 +48,7 @@ function home_defaults(): array {
         'home_podcast_eyebrow' => 'Su podcast · desde 2026',
         'home_podcast_title' => 'Raíz <span class="gold">Firme</span>',
         'home_podcast_intro' => 'Conversaciones sobre negocio, liderazgo y mentalidad. Capítulo nuevo cada miércoles. Escúchala pensar — la mejor forma de conocerla.',
+        'home_podcast_btn_text' => 'Ver el canal en YouTube →',
         'home_podcast_channel' => 'https://www.youtube.com/@RAIZFIRME_1',
         'home_pod1_url' => 'https://youtu.be/-o_mwccEBy8',
         'home_pod2_url' => 'https://youtu.be/G3mxBoFw2YU',
@@ -58,6 +59,7 @@ function home_defaults(): array {
         'home_foto_stat1_num' => '+5,000', 'home_foto_stat1_label' => 'Seguidores',
         'home_foto_stat2_num' => 'Lista de espera', 'home_foto_stat2_label' => 'de clientes',
         'home_foto_note' => 'Una etapa que le demostró que una pasión, con método, se vuelve un negocio.',
+        'home_foto_btn_text' => 'Ver su trabajo en Facebook',
         'home_foto_url' => 'https://www.facebook.com/annabellphotography/',
         // Tarjetas de trayectoria (③ Historia) — defaults de la referencia del cliente
         'home_hist1_title' => 'Mis raíces',        'home_hist1_text' => 'Valores, disciplina y perseverancia que me formaron en casa.',
@@ -363,6 +365,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $add('home_foto_eyebrow','home_fotografia', 'Etiqueta', '', 'html');
     $add('home_foto_title','home_fotografia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_foto_text','home_fotografia', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_foto_btn_text','home_fotografia', 'Botón — Texto');
     $add('home_foto_url','home_fotografia', 'Botón — Enlace (Facebook)', '', 'url');
     $carousel('home_fotografia', 'home_foto');
 
@@ -390,6 +393,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $add('home_podcast_eyebrow','home_podcast', 'Etiqueta', '', 'html');
     $add('home_podcast_title','home_podcast', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_podcast_intro','home_podcast', 'Intro · dorado: <span class="gold">texto</span>', '', 'html');
+    $add('home_podcast_btn_text','home_podcast', 'Botón — Texto');
     $add('home_podcast_channel','home_podcast', 'Botón — Enlace al canal', '', 'url');
     $carousel('home_podcast', 'home_podcast');
 

@@ -92,7 +92,7 @@ $arrows =
     $A('_annabell_photography/abuelita_nieta_annabell_photography.jpg'),
     $A('_annabell_photography/Annabell_annabell_photography.jpg'),
   ]); ?></div>
-  <?php if ($u = home_f('home_foto_url')): ?><div class="wrap center" style="margin-top:var(--s6)"><a href="<?php echo esc_url($u); ?>" target="_blank" rel="noopener" class="btn btn-ghost">Ver su trabajo en Facebook</a></div><?php endif; ?>
+  <?php if ($u = home_f('home_foto_url')): ?><div class="wrap center" style="margin-top:var(--s6)"><a href="<?php echo esc_url($u); ?>" target="_blank" rel="noopener" class="btn btn-ghost"><?php echo esc_html(home_f('home_foto_btn_text')); ?></a></div><?php endif; ?>
 </section>
 <?php endif; ?>
 
@@ -148,7 +148,7 @@ $arrows =
     'https://youtu.be/N4zkatxA7cw',
     'https://youtu.be/-vaZ2A0u_5s',
   ], 'ar-16-9'); ?></div>
-  <?php if ($u = home_f('home_podcast_channel')): ?><div class="wrap center" style="margin-top:var(--s6)"><a href="<?php echo esc_url($u); ?>" target="_blank" rel="noopener" class="btn btn-ghost">Ver el canal en YouTube →</a></div><?php endif; ?>
+  <?php if ($u = home_f('home_podcast_channel')): ?><div class="wrap center" style="margin-top:var(--s6)"><a href="<?php echo esc_url($u); ?>" target="_blank" rel="noopener" class="btn btn-ghost"><?php echo esc_html(home_f('home_podcast_btn_text')); ?></a></div><?php endif; ?>
 </section>
 <?php endif; ?>
 
