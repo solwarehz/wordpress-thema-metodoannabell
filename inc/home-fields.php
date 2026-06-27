@@ -104,6 +104,12 @@ function home_defaults(): array {
         'home_cta_text' => 'Annabell comparte su metodología para que otros emprendedores no caminen a ciegas y acorten su camino al éxito.',
         'home_cta_btn_text' => 'Conoce el Método Annabell',
         'home_footer_text' => 'Empresaria, odontóloga y mentora. De autoempleado a empresario.',
+        'home_footer_col1_title' => 'Explora',
+        'home_footer_link1_label' => 'Fotografía',         'home_footer_link1_url' => '#fotografia',
+        'home_footer_link2_label' => 'Clínica Goldent',    'home_footer_link2_url' => '#goldent',
+        'home_footer_link3_label' => 'Podcast Raíz Firme', 'home_footer_link3_url' => '#podcast',
+        'home_footer_link4_label' => 'El Método',          'home_footer_link4_url' => '#metodo',
+        'home_footer_col2_title' => 'Conecta',
     ];
 }
 
@@ -480,4 +486,10 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // FOOTER
     $sec('home_footer', '⑪ Footer', 110);
     $add('home_footer_text','home_footer', 'Texto bajo el logo', '', 'textarea');
+    $add('home_footer_col1_title','home_footer', 'Columna 1 — Título');
+    for ($n = 1; $n <= 6; $n++) {
+        $add("home_footer_link{$n}_label",'home_footer', "Enlace {$n} — Texto");
+        $add("home_footer_link{$n}_url",  'home_footer', "Enlace {$n} — URL o ancla (#seccion)");
+    }
+    $add('home_footer_col2_title','home_footer', 'Columna 2 (redes) — Título');
 });
