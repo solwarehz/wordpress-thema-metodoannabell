@@ -98,9 +98,11 @@ body.lb-open{overflow:hidden}
 .home-hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:var(--s8);align-items:center}
 .home-hero .eyebrow{margin-bottom:12px}
 .home-hero h1{margin:var(--s1) 0 var(--s3)}
-/* Botones: en línea si hay espacio; si no, uno debajo del otro */
-.home-hero .cta{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s6)}
-.home-hero .cta .btn{flex:0 1 auto}
+/* Botones: en línea si hay espacio; si no, uno debajo del otro.
+   Padding compacto + gap reducido para que quepan inline aun con textos largos. */
+.home-hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:var(--s6)}
+.home-hero .cta .btn{flex:0 1 auto;padding:0 22px;gap:8px;font-size:16px;height:56px}
+.home-hero .cta .btn .btn-arrow{width:16px}
 .home-hero .portrait{max-width:420px;margin-left:auto;width:100%;position:relative}
 
 /* Líneas decorativas reutilizables (se pegan como el span dorado, donde quiera) */
