@@ -110,6 +110,10 @@ function home_defaults(): array {
         'home_footer_link3_label' => 'Podcast Raíz Firme', 'home_footer_link3_url' => '#podcast',
         'home_footer_link4_label' => 'El Método',          'home_footer_link4_url' => '#metodo',
         'home_footer_col2_title' => 'Conecta',
+        'home_footer2_link1_label' => 'Clínica Goldent',      'home_footer2_link1_url' => 'https://www.facebook.com/Dentistasgoldent/',
+        'home_footer2_link2_label' => 'Raíz Firme',           'home_footer2_link2_url' => 'https://www.youtube.com/@RAIZFIRME_1',
+        'home_footer2_link3_label' => 'Annabell Aguedo',      'home_footer2_link3_url' => 'https://www.facebook.com/annabell.aguedo',
+        'home_footer2_link4_label' => 'Annabell Photography', 'home_footer2_link4_url' => 'https://www.facebook.com/annabellphotography/',
     ];
 }
 
@@ -491,5 +495,9 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
         $add("home_footer_link{$n}_label",'home_footer', "Enlace {$n} — Texto");
         $add("home_footer_link{$n}_url",  'home_footer', "Enlace {$n} — URL o ancla (#seccion)");
     }
-    $add('home_footer_col2_title','home_footer', 'Columna 2 (redes) — Título');
+    $add('home_footer_col2_title','home_footer', 'Columna 2 — Título');
+    for ($n = 1; $n <= 6; $n++) {
+        $add("home_footer2_link{$n}_label",'home_footer', "Col. 2 · Enlace {$n} — Texto");
+        $add("home_footer2_link{$n}_url",  'home_footer', "Col. 2 · Enlace {$n} — URL");
+    }
 });
