@@ -79,7 +79,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 
     <div class="hero-split">
       <div>
-        <div class="video"><?php echo vsl_video_embed(vsl_f('video_url', '')); ?></div>
+        <div class="video"><?php echo vsl_video_embed(vsl_f('video_url', 'https://vimeo.com/1204182154?share=copy&fl=sv&fe=ci')); ?></div>
       </div>
 
       <aside class="offer">
