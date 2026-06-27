@@ -195,8 +195,8 @@ body.lb-open{overflow:hidden}
 .home-page .vthumb{position:relative;overflow:hidden;border-radius:var(--radius);background:linear-gradient(135deg,#1c1c1c,#0c0c0c);border:1px solid rgba(212,175,55,.18);cursor:pointer;transition:border-color .25s}
 .home-page .vthumb:hover{border-color:var(--oro)}
 .home-page .vthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-.home-page .vthumb .play{position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;background:var(--grad-oro);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(212,175,55,.4)}
-.home-page .vthumb .play svg{width:22px;height:22px;margin-left:3px;fill:var(--negro)}
+.home-page .vthumb .play{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:var(--grad-oro);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(212,175,55,.4)}
+.home-page .vthumb .play svg{width:16px;height:16px;margin-left:2px;fill:var(--negro)}
 
 /* Tarjeta de letra del método (carrusel) */
 .home-page .car-acard{min-height:230px;display:flex;flex-direction:column;justify-content:center;text-align:left}
