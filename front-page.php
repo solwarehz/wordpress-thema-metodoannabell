@@ -23,13 +23,13 @@ $arrows =
 <nav class="home-nav">
   <div class="wrap">
     <?php echo annabell_logo_html(true, 'nav-logo-img'); ?>
-    <ul class="links">
-      <?php if (home_on('show_home_historia')): ?><li><a href="#historia">Historia</a></li><?php endif; ?>
-      <?php if (home_on('show_home_fotografia')): ?><li><a href="#fotografia">Fotografía</a></li><?php endif; ?>
-      <?php if (home_on('show_home_goldent')): ?><li><a href="#goldent">Goldent</a></li><?php endif; ?>
-      <?php if (home_on('show_home_podcast')): ?><li><a href="#podcast">Podcast</a></li><?php endif; ?>
-      <?php if (home_on('show_home_metodo')): ?><li><a href="#metodo">El Método</a></li><?php endif; ?>
-    </ul>
+    <?php wp_nav_menu([
+      'theme_location' => 'primary',
+      'container'      => false,
+      'menu_class'     => 'links',
+      'depth'          => 1,
+      'fallback_cb'    => 'home_nav_fallback',
+    ]); ?>
     <a href="<?php echo esc_url(home_f('home_nav_cta_url', '/mentoria/')); ?>" class="btn btn-oro btn-sm"><?php echo esc_html(home_f('home_nav_cta_text')); ?></a>
   </div>
 </nav>

@@ -146,6 +146,20 @@ function home_sanitize_order(string $value): string {
     if (!is_array($d)) return '';
     return wp_json_encode(array_values(array_filter($d, function ($k) use ($allowed) { return in_array($k, $allowed, true); })));
 }
+
+/* Fallback del menú principal: si no hay un menú de WordPress asignado a la ubicación
+   "Menú Principal", muestra los mismos enlaces de la Columna 1 del footer. */
+function home_nav_fallback(): void {
+    echo '<ul class="links">';
+    for ($n = 1; $n <= 6; $n++) {
+        $l = home_f("home_footer_link{$n}_label");
+        $u = home_f("home_footer_link{$n}_url");
+        if (!$l) continue;
+        $target = (strpos((string) $u, 'http') === 0) ? ' target="_blank" rel="noopener"' : '';
+        echo '<li><a href="' . ($u ? esc_url($u) : '#') . '"' . $target . '>' . esc_html($l) . '</a></li>';
+    }
+    echo '</ul>';
+}
 function home_img(string $name): string {
     return esc_url(get_theme_mod($name, ''));
 }
