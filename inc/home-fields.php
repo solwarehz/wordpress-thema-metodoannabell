@@ -126,6 +126,26 @@ function home_f(string $name, string $default = ''): string {
 function home_on(string $name, bool $default = true): bool {
     return (bool) get_theme_mod($name, $default);
 }
+
+/* Orden de las secciones reordenables (Customizer → ⚙ Orden de secciones) */
+function home_order(): array {
+    $default = ['historia','fotografia','goldent','ponencias','podcast','recon','conecta','metodo'];
+    $val = get_theme_mod('home_sections_order', '');
+    $order = ($val && is_array($d = json_decode($val, true))) ? $d : $default;
+    foreach ($default as $k) if (!in_array($k, $order, true)) $order[] = $k; // añade faltantes al final
+    return array_values(array_filter($order, function ($k) use ($default) { return in_array($k, $default, true); }));
+}
+/* Posición (para CSS order) de una sección según el orden guardado */
+function home_order_pos(string $key): int {
+    $i = array_search($key, home_order(), true);
+    return $i === false ? 99 : (int) $i;
+}
+function home_sanitize_order(string $value): string {
+    $allowed = ['historia','fotografia','goldent','ponencias','podcast','recon','conecta','metodo'];
+    $d = json_decode($value, true);
+    if (!is_array($d)) return '';
+    return wp_json_encode(array_values(array_filter($d, function ($k) use ($allowed) { return in_array($k, $allowed, true); })));
+}
 function home_img(string $name): string {
     return esc_url(get_theme_mod($name, ''));
 }
@@ -375,6 +395,31 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
             $add("{$prefix}_item{$n}_vid", $section, "Carrusel {$n} — o URL de video", '', 'url');
         }
     };
+
+    // ORDEN DE SECCIONES (drag & drop)
+    $sec('home_order_sec', '⚙ Orden de secciones', 5);
+    $wpc->add_setting('home_sections_order', [
+        'default'           => wp_json_encode(['historia','fotografia','goldent','ponencias','podcast','recon','conecta','metodo']),
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'home_sanitize_order',
+    ]);
+    if (class_exists('Annabell_Order_Control')) {
+        $wpc->add_control(new Annabell_Order_Control($wpc, 'home_sections_order', [
+            'label'       => 'Orden de secciones',
+            'section'     => 'home_order_sec',
+            'settings'    => ['default' => 'home_sections_order'],
+            'section_map' => [
+                'historia'   => '③ Su historia',
+                'fotografia' => '④ Fotografía',
+                'goldent'    => '⑤ Clínica Goldent',
+                'ponencias'  => '⑥ Ponencias',
+                'podcast'    => '⑦ Podcast',
+                'recon'      => '⑧ Reconocimientos',
+                'conecta'    => '⑨ Conecta',
+                'metodo'     => '⑩ El Método',
+            ],
+        ]));
+    }
 
     // NAV
     $sec('home_nav', '① Navegación', 10);

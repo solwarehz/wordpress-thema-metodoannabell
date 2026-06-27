@@ -386,6 +386,8 @@ function annabell_sanitize_order(string $value): string {
 if (class_exists('WP_Customize_Control')):
 class Annabell_Order_Control extends WP_Customize_Control {
 
+    public $section_map = []; // mapa key=>etiqueta (si está vacío usa el del tema viejo)
+
     public function enqueue(): void {
         wp_enqueue_script('jquery-ui-sortable');
         wp_add_inline_style('customize-controls', '
@@ -406,7 +408,7 @@ class Annabell_Order_Control extends WP_Customize_Control {
     }
 
     public function render_content(): void {
-        $map = [
+        $map = $this->section_map ?: [
             'hero'        => '① Hero principal',
             'problema'    => '② El Problema',
             'bio'         => '③ Bio Annabell',
@@ -508,7 +510,7 @@ function annabell_customize_register_extra(WP_Customize_Manager $wpc): void {
     ]));
 
     // ── ESTILO & MARCA ────────────────────────
-    $wpc->add_section('annabell_estilo_sec', ['title' => '🎨 Estilo & Marca', 'panel' => 'annabell_panel', 'priority' => 8]);
+    $wpc->add_section('annabell_estilo_sec', ['title' => '🎨 Colores de marca', 'priority' => 205]);
     $s = 'annabell_estilo_sec';
     foreach ([
         ['color_gold',       'Color dorado principal',  '#D4AF37'],
@@ -521,23 +523,11 @@ function annabell_customize_register_extra(WP_Customize_Manager $wpc): void {
         $wpc->add_setting($id, ['default' => $default, 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_hex_color']);
         $wpc->add_control(new WP_Customize_Color_Control($wpc, $id, ['label' => $label, 'section' => $s]));
     }
+    // Tipografías: el tema nuevo usa Inter + Cinzel FIJOS, así que se quitan los
+    // selectores (eran del diseño viejo). Se conservan los ajustes con su default
+    // para no alterar las páginas legacy ni romper la carga de fuentes.
     $wpc->add_setting('font_heading', ['default' => 'Oswald', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
-    $wpc->add_control('font_heading', ['label' => 'Tipografía — Títulos (impacto)', 'section' => $s, 'type' => 'select', 'choices' => [
-        'Oswald'           => 'Oswald (predeterminado · marca)',
-        'Anton'            => 'Anton',
-        'Bebas Neue'       => 'Bebas Neue',
-        'Archivo Narrow'   => 'Archivo Narrow',
-        'Playfair Display' => 'Playfair Display',
-    ]]);
-    $wpc->add_setting('font_body', ['default' => 'Lato', 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
-    $wpc->add_control('font_body', ['label' => 'Tipografía — Texto', 'section' => $s, 'type' => 'select', 'choices' => [
-        'Lato'        => 'Lato (predeterminado · marca)',
-        'Inter'       => 'Inter',
-        'Roboto'      => 'Roboto',
-        'Open Sans'   => 'Open Sans',
-        'Montserrat'  => 'Montserrat',
-        'Nunito Sans' => 'Nunito Sans',
-    ]]);
+    $wpc->add_setting('font_body',    ['default' => 'Lato',   'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field']);
 
     // ── VIDEO ─────────────────────────────────
     $wpc->add_section('annabell_video_sec', ['title' => '🎬 Video Presentación', 'panel' => 'annabell_panel', 'priority' => 35]);
@@ -592,8 +582,7 @@ add_action('customize_register', 'annabell_customize_register_extra');
 function annabell_customize_register_whatsapp(WP_Customize_Manager $wpc): void {
     $wpc->add_section('annabell_whatsapp_sec', [
         'title'    => '💬 WhatsApp',
-        'panel'    => 'annabell_panel',
-        'priority' => 115,
+        'priority' => 210,
     ]);
     $s   = 'annabell_whatsapp_sec';
     $add = function(string $id, string $label, $default = '', string $type = 'text', string $san = '') use ($wpc, $s): void {
@@ -608,6 +597,15 @@ function annabell_customize_register_whatsapp(WP_Customize_Manager $wpc): void {
     $add('wa_tooltip',    'Texto del tooltip',                   '¿Tienes dudas? Escríbeme');
 }
 add_action('customize_register', 'annabell_customize_register_whatsapp');
+
+/* ── Oculta el panel viejo "Página Principal" (annabell_panel) del tema original
+   para evitar confusión con el nuevo "Página Principal (Autoridad)".
+   La home actual usa el panel nuevo; estas secciones viejas ya no se renderizan.
+   Los ajustes guardados se conservan (solo se ocultan de la interfaz). ── */
+function annabell_hide_legacy_home_panel(WP_Customize_Manager $wpc): void {
+    $wpc->remove_panel('annabell_panel');
+}
+add_action('customize_register', 'annabell_hide_legacy_home_panel', 999);
 
 /* ── CSS variables dinámicas desde Customizer ── */
 function annabell_dynamic_styles(): void {
@@ -673,6 +671,7 @@ function annabell_vsl_assets(): void {
     wp_enqueue_style('annabell-vsl', get_template_directory_uri() . '/assets/css/vsl.css', [], $v);
     wp_enqueue_style('annabell-reveal', get_template_directory_uri() . '/assets/css/reveal.css', [], $v);
     wp_enqueue_script('annabell-reveal', get_template_directory_uri() . '/assets/js/reveal.js', [], $v, true);
+    wp_enqueue_script('annabell-vsl-video', get_template_directory_uri() . '/assets/js/vsl-video.js', [], $v, true);
 }
 add_action('wp_enqueue_scripts', 'annabell_vsl_assets', 20);
 
