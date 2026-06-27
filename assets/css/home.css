@@ -256,8 +256,8 @@ body.lb-open{overflow:hidden}
 .home-page .rcard p{font-size:14px;margin-top:6px}
 
 /* ===== Conecta: imagen central (sin borde) ===== */
-.home-page .conecta-img{margin:var(--s3) auto var(--s6);max-width:460px}
-.home-page .conecta-img img{width:100%;height:auto;display:block;border:0;border-radius:14px}
+.home-page .conecta-img{margin:var(--s3) auto var(--s6);max-width:540px;width:100%}
+.home-page .conecta-img img{width:100%;height:auto;display:block;margin:0 auto;border:0;border-radius:14px}
 
 /* ===== Redes ===== */
 .home-page .social{display:flex;gap:var(--s2);flex-wrap:wrap;justify-content:center}
