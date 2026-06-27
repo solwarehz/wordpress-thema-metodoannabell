@@ -67,6 +67,11 @@ function home_defaults(): array {
         'home_hist5_title' => 'Mi evolución',      'home_hist5_text' => 'Cada experiencia me llevó a crecer, a salir de mi zona de confort y expandir mi visión.',
         'home_hist6_title' => 'Mi expertica',      'home_hist6_text' => 'La odontología y la especialidad me dieron estructura, técnica y el deseo de ayudar a más personas.',
         'home_hist7_title' => 'Mi misión hoy',     'home_hist7_text' => 'Todo lo aprendido lo transformé en un método para acompañar a otras mujeres a construir la vida y el negocio que desean.',
+        // Cifras (debajo de las tarjetas de trayectoria)
+        'home_cifra1_num' => '6×', 'home_cifra1_label' => 'Crecimiento de la clínica',
+        'home_cifra2_num' => '+5,000', 'home_cifra2_label' => 'Seguidores en fotografía',
+        'home_cifra3_num' => '2', 'home_cifra3_label' => 'Negocios rentables construidos',
+        'home_cifra4_num' => '+15', 'home_cifra4_label' => 'Años emprendiendo',
         'home_metodo_eyebrow' => 'Su legado · la Annabell de hoy', 'home_metodo_title' => 'El Método A·N·N·A·B·E·L·L',
         'home_metodo_intro' => 'Pasiones convertidas en negocios rentables y el equilibrio entre vida y trabajo: ese camino de aprendizaje Annabell lo hizo método. Hoy lo comparte para que otros emprendedores no caminen a ciegas y acorten su camino al éxito.',
         'home_metodo_btn_text' => 'Conoce el Método Annabell', 'home_metodo_btn_url' => '/mentoria/',
@@ -237,7 +242,7 @@ function home_hero_cards(): string {
                 . '</div></div>';
     }
     if ($items === '') return '';
-    return '<div class="hero-cards"><div class="carousel" data-autoplay="3500">'
+    return '<div class="hero-cards"><div class="carousel" data-loop="seamless" data-autoplay="3500">'
          . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
          . '<div class="car-dots"></div></div></div>';
 }
@@ -265,7 +270,7 @@ function home_historia_cards(): string {
     $arrows =
         '<button class="car-nav car-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' .
         '<button class="car-nav car-next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>';
-    return '<div class="wrap" style="margin-top:var(--s8)"><div class="historia-cards"><div class="carousel" data-autoplay="3500">'
+    return '<div class="wrap" style="margin-top:var(--s8)"><div class="historia-cards"><div class="carousel" data-loop="seamless" data-autoplay="3500">'
          . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
          . $arrows . '<div class="car-dots"></div></div></div></div>';
 }
@@ -345,6 +350,11 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
         $img("home_hist{$n}_img",   'home_historia', "Tarjeta {$n} — Foto (4:3)");
         $add("home_hist{$n}_title", 'home_historia', "Tarjeta {$n} — Título", '', 'html');
         $add("home_hist{$n}_text",  'home_historia', "Tarjeta {$n} — Texto", '', 'html');
+    }
+    // Cifras (se muestran debajo de las tarjetas)
+    for ($n = 1; $n <= 4; $n++) {
+        $add("home_cifra{$n}_num",   'home_historia', "Cifra {$n} — Número");
+        $add("home_cifra{$n}_label", 'home_historia', "Cifra {$n} — Etiqueta");
     }
 
     // FOTOGRAFÍA
