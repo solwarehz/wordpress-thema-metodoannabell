@@ -213,11 +213,9 @@ $arrows =
         <?php echo annabell_logo_html(true, 'nav-logo-img'); ?>
         <p style="font-size:14px;max-width:34ch;margin-top:var(--s2)"><?php echo esc_html(home_f('home_footer_text')); ?></p>
       </div>
-      <div><h4><?php echo esc_html(home_f('home_footer_col1_title')); ?></h4><ul>
-        <?php for ($n = 1; $n <= 6; $n++): $fl = home_f("home_footer_link{$n}_label"); $fu = home_f("home_footer_link{$n}_url"); if (!$fl) continue; ?>
-        <li><a href="<?php echo $fu ? esc_url($fu) : '#'; ?>"<?php echo (strpos((string) $fu, 'http') === 0) ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($fl); ?></a></li>
-        <?php endfor; ?>
-      </ul></div>
+      <div><h4><?php echo esc_html(home_f('home_footer_col1_title')); ?></h4>
+        <?php wp_nav_menu(['theme_location' => 'primary', 'container' => false, 'menu_class' => '', 'depth' => 1, 'fallback_cb' => 'home_nav_fallback']); ?>
+      </div>
       <div><h4><?php echo esc_html(home_f('home_footer_col2_title')); ?></h4><ul>
         <?php for ($n = 1; $n <= 6; $n++): $fl = home_f("home_footer2_link{$n}_label"); $fu = home_f("home_footer2_link{$n}_url"); if (!$fl) continue; ?>
         <li><a href="<?php echo $fu ? esc_url($fu) : '#'; ?>"<?php echo (strpos((string) $fu, 'http') === 0) ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html($fl); ?></a></li>

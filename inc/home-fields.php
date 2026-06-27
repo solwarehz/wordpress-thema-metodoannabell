@@ -105,10 +105,6 @@ function home_defaults(): array {
         'home_cta_btn_text' => 'Conoce el Método Annabell',
         'home_footer_text' => 'Empresaria, odontóloga y mentora. De autoempleado a empresario.',
         'home_footer_col1_title' => 'Explora',
-        'home_footer_link1_label' => 'Fotografía',         'home_footer_link1_url' => '#fotografia',
-        'home_footer_link2_label' => 'Clínica Goldent',    'home_footer_link2_url' => '#goldent',
-        'home_footer_link3_label' => 'Podcast Raíz Firme', 'home_footer_link3_url' => '#podcast',
-        'home_footer_link4_label' => 'El Método',          'home_footer_link4_url' => '#metodo',
         'home_footer_col2_title' => 'Conecta',
         'home_footer2_link1_label' => 'Clínica Goldent',      'home_footer2_link1_url' => 'https://www.facebook.com/Dentistasgoldent/',
         'home_footer2_link2_label' => 'Raíz Firme',           'home_footer2_link2_url' => 'https://www.youtube.com/@RAIZFIRME_1',
@@ -150,13 +146,16 @@ function home_sanitize_order(string $value): string {
 /* Fallback del menú principal: si no hay un menú de WordPress asignado a la ubicación
    "Menú Principal", muestra los mismos enlaces de la Columna 1 del footer. */
 function home_nav_fallback(): void {
+    $links = [
+        ['Fotografía',         '#fotografia'],
+        ['Clínica Goldent',    '#goldent'],
+        ['Podcast Raíz Firme', '#podcast'],
+        ['El Método',          '#metodo'],
+    ];
     echo '<ul class="links">';
-    for ($n = 1; $n <= 6; $n++) {
-        $l = home_f("home_footer_link{$n}_label");
-        $u = home_f("home_footer_link{$n}_url");
-        if (!$l) continue;
-        $target = (strpos((string) $u, 'http') === 0) ? ' target="_blank" rel="noopener"' : '';
-        echo '<li><a href="' . ($u ? esc_url($u) : '#') . '"' . $target . '>' . esc_html($l) . '</a></li>';
+    foreach ($links as $lk) {
+        $target = (strpos($lk[1], 'http') === 0) ? ' target="_blank" rel="noopener"' : '';
+        echo '<li><a href="' . esc_url($lk[1]) . '"' . $target . '>' . esc_html($lk[0]) . '</a></li>';
     }
     echo '</ul>';
 }
@@ -549,11 +548,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // FOOTER
     $sec('home_footer', '⑪ Footer', 110);
     $add('home_footer_text','home_footer', 'Texto bajo el logo', '', 'textarea');
-    $add('home_footer_col1_title','home_footer', 'Columna 1 — Título');
-    for ($n = 1; $n <= 6; $n++) {
-        $add("home_footer_link{$n}_label",'home_footer', "Enlace {$n} — Texto");
-        $add("home_footer_link{$n}_url",  'home_footer', "Enlace {$n} — URL o ancla (#seccion)");
-    }
+    $add('home_footer_col1_title','home_footer', 'Columna 1 — Título (los enlaces = Menú Principal · Apariencia → Menús)');
     $add('home_footer_col2_title','home_footer', 'Columna 2 — Título');
     for ($n = 1; $n <= 6; $n++) {
         $add("home_footer2_link{$n}_label",'home_footer', "Col. 2 · Enlace {$n} — Texto");
