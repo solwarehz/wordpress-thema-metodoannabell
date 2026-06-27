@@ -61,7 +61,6 @@ $arrows =
   <div class="wrap narrow center mxa">
     <span class="eyebrow"><?php echo wp_kses_post(home_f('home_historia_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_historia_title')); ?></h2>
-    <div class="divisor"></div>
     <p class="mxa"><?php echo wp_kses_post(home_f('home_historia_text')); ?></p>
     <?php if ($q = home_f('home_historia_quote')): ?><p class="elegante grad-text mxa" style="margin-top:var(--s6)">"<?php echo wp_kses_post($q); ?>"</p><?php endif; ?>
   </div>
