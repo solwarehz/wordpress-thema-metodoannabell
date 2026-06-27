@@ -74,9 +74,19 @@ function home_defaults(): array {
         'home_cifra2_num' => '+5,000', 'home_cifra2_label' => 'Seguidores en fotografía',
         'home_cifra3_num' => '2', 'home_cifra3_label' => 'Negocios rentables construidos',
         'home_cifra4_num' => '+15', 'home_cifra4_label' => 'Años emprendiendo',
-        'home_metodo_eyebrow' => 'Su legado · la Annabell de hoy', 'home_metodo_title' => 'El Método A·N·N·A·B·E·L·L',
+        'home_metodo_eyebrow' => 'Su legado · la Annabell de hoy',
+        'home_metodo_title' => 'El Método A<span class="gold">·</span>N<span class="gold">·</span>N<span class="gold">·</span>A<span class="gold">·</span>B<span class="gold">·</span>E<span class="gold">·</span>L<span class="gold">·</span>L',
         'home_metodo_intro' => 'Pasiones convertidas en negocios rentables y el equilibrio entre vida y trabajo: ese camino de aprendizaje Annabell lo hizo método. Hoy lo comparte para que otros emprendedores no caminen a ciegas y acorten su camino al éxito.',
         'home_metodo_btn_text' => 'Conoce el Método Annabell', 'home_metodo_btn_url' => '/mentoria/',
+        // Íconos por defecto de las 8 tarjetas A·N·N·A·B·E·L·L (editables como SVG)
+        'home_metodo_icon1' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>',
+        'home_metodo_icon2' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><line x1="7" y1="20" x2="7" y2="13"/><line x1="12" y1="20" x2="12" y2="8"/><line x1="17" y1="20" x2="17" y2="15"/></svg>',
+        'home_metodo_icon3' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="15.5 8.5 13 13 8.5 15.5 11 11"/></svg>',
+        'home_metodo_icon4' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9V6z"/></svg>',
+        'home_metodo_icon5' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.2"/><path d="M16 14c3 0 5 2 5 5"/></svg>',
+        'home_metodo_icon6' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 9 12 5 2 9l10 4 10-4z"/><path d="M6 11v5c0 1 3 2 6 2s6-1 6-2v-5"/></svg>',
+        'home_metodo_icon7' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="21" x2="5" y2="4"/><path d="M5 4h12l-2.5 4L17 12H5"/></svg>',
+        'home_metodo_icon8' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><polyline points="4 16 9 11 13 14 20 6"/><polyline points="15 6 20 6 20 11"/></svg>',
         'home_recon_eyebrow' => 'Respaldo', 'home_recon_title' => 'Reconocida como mentora',
         'home_recon_feature_title' => 'Reconocida como mentora',
         'home_recon_feature_text' => 'El Ministerio de la Mujer y Poblaciones Vulnerables reconoció a Annabell por su destacada participación como mentora en el Programa de Mentorías «Oportunidades para Todas», con el apoyo de la Cooperación Alemana (GIZ).',
@@ -186,7 +196,7 @@ function home_carousel(string $prefix, array $defaults = [], string $aspect = 'a
     $arrows =
         '<button class="car-nav car-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' .
         '<button class="car-nav car-next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>';
-    return '<div class="carousel" data-autoplay="2000"><div class="car-viewport"><div class="car-track">' . $cells . '</div></div>' . $arrows . '<div class="car-dots"></div></div>';
+    return '<div class="carousel" data-loop="seamless" data-autoplay="2000"><div class="car-viewport"><div class="car-track">' . $cells . '</div></div>' . $arrows . '<div class="car-dots"></div></div>';
 }
 
 /* Icono SVG (dorado vía currentColor) según la red detectada en la URL */
@@ -275,6 +285,44 @@ function home_historia_cards(): string {
     return '<div class="wrap" style="margin-top:var(--s8)"><div class="historia-cards"><div class="carousel" data-loop="seamless" data-autoplay="3500">'
          . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
          . $arrows . '<div class="car-dots"></div></div></div></div>';
+}
+
+/* ⑩ El Método — foto grande (vertical, editable por Media). */
+function home_metodo_photo(): string {
+    $img = home_img('home_metodo_image');
+    if ($img) return '<img src="' . $img . '" alt="Annabell Aguedo" loading="lazy">';
+    return '<div class="ph">Foto vertical · Annabell</div>';
+}
+
+/* ⑩ El Método — carrusel de las 8 tarjetas A·N·N·A·B·E·L·L (letra + palabra + ícono SVG + texto).
+   Ícono editable (home_metodo_icon{n}); resto fijo. Seamless como los demás. */
+function home_metodo_cards(): string {
+    $def = [
+        ['A', 'Analiza',       'Comprende tu realidad antes de escalar.'],
+        ['N', 'Numera',        'Lo que no se mide, no mejora.'],
+        ['N', 'Navega',        'Dirige con visión estratégica.'],
+        ['A', 'Anticípate',    'Ordena antes del caos.'],
+        ['B', 'Busca talento', 'Contrata por estándar, no por urgencia.'],
+        ['E', 'Enseña',        'Delegar exige formar.'],
+        ['L', 'Lidera',        'Lidera la estructura, no operes.'],
+        ['L', 'Lecciona',      'Mejora continua.'],
+    ];
+    $items = '';
+    foreach ($def as $i => $c) {
+        $icon = home_f('home_metodo_icon' . ($i + 1));
+        $items .= '<div class="car-item"><div class="mcard">'
+                . '<div class="l">' . esc_html($c[0]) . '</div>'
+                . '<div class="w">' . esc_html($c[1]) . '</div>'
+                . ($icon ? '<span class="ic">' . home_kses_svg($icon) . '</span>' : '')
+                . '<p>' . esc_html($c[2]) . '</p>'
+                . '</div></div>';
+    }
+    $arrows =
+        '<button class="car-nav car-prev" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' .
+        '<button class="car-nav car-next" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>';
+    return '<div class="m-cards"><div class="carousel" data-loop="seamless" data-autoplay="2600">'
+         . '<div class="car-viewport"><div class="car-track">' . $items . '</div></div>'
+         . $arrows . '<div class="car-dots"></div></div></div>';
 }
 
 /* ── Registro en el Customizer ── */
@@ -420,7 +468,9 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $add('home_metodo_eyebrow','home_metodo', 'Etiqueta', '', 'html');
     $add('home_metodo_title','home_metodo', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
     $add('home_metodo_intro','home_metodo', 'Texto · dorado: <span class="gold">texto</span>', '', 'html');
-    for ($n = 1; $n <= 8; $n++) $img("home_metodo_letter{$n}_img", 'home_metodo', "Letra {$n} — Foto (opcional)");
+    $img('home_metodo_image', 'home_metodo', 'Foto grande (vertical · izquierda)');
+    $metodo_letras = ['A','N','N','A','B','E','L','L'];
+    for ($n = 1; $n <= 8; $n++) $add("home_metodo_icon{$n}", 'home_metodo', "Tarjeta {$n} ({$metodo_letras[$n-1]}) — Ícono (SVG)", '', 'svg');
     $add('home_metodo_btn_text','home_metodo', 'Botón — Texto');
     $add('home_metodo_btn_url','home_metodo', 'Botón — Enlace', '/mentoria/', 'url');
 

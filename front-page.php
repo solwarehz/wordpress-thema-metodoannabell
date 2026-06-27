@@ -187,40 +187,17 @@ $arrows =
 
 <?php if (home_on('show_home_metodo')): ?>
 <!-- EL MÉTODO (cierre — la Annabell de hoy) -->
-<section class="section" id="metodo">
-  <div class="wrap center" style="margin-bottom:var(--s8)">
+<section class="home-metodo" id="metodo">
+  <div class="m-photo"><?php echo home_metodo_photo(); ?></div>
+  <div class="m-body">
     <span class="eyebrow"><?php echo wp_kses_post(home_f('home_metodo_eyebrow')); ?></span>
     <h2><?php echo wp_kses_post(home_f('home_metodo_title')); ?></h2>
-    <p class="lead mxa" style="margin-top:var(--s3)"><?php echo wp_kses_post(home_f('home_metodo_intro')); ?></p>
+    <p class="lead"><?php echo wp_kses_post(home_f('home_metodo_intro')); ?></p>
+    <?php echo home_metodo_cards(); ?>
+    <?php if (($mt = home_f('home_metodo_btn_text')) && ($mu = home_f('home_metodo_btn_url', '/mentoria/'))): ?>
+    <a href="<?php echo esc_url($mu); ?>" class="btn btn-oro btn-lg metodo-cta"><?php echo esc_html($mt); ?><svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <?php endif; ?>
   </div>
-  <div class="wrap">
-    <?php $metodo = [
-      ['A','Analiza','Comprende tu realidad antes de escalar.'],
-      ['N','Numera','Lo que no se mide, no mejora.'],
-      ['N','Navega','Dirige con visión estratégica.'],
-      ['A','Anticípate','Ordena antes del caos.'],
-      ['B','Busca talento','Contrata por estándar, no por urgencia.'],
-      ['E','Enseña','Delegar exige formar.'],
-      ['L','Lidera','Lidera la estructura, no operes.'],
-      ['L','Lecciona','Mejora continua.'],
-    ]; ?>
-    <div class="carousel" data-autoplay="2000">
-      <div class="car-viewport"><div class="car-track">
-        <?php foreach ($metodo as $i => $c): $li = home_img('home_metodo_letter' . ($i + 1) . '_img'); ?>
-        <div class="car-item">
-          <?php if ($li): ?>
-          <div class="cover ar-1-1 ml"><img src="<?php echo esc_url($li); ?>" alt="<?php echo esc_attr($c[1]); ?>" loading="lazy"><span class="ml-letter"><?php echo esc_html($c[0]); ?></span><span class="ml-word"><?php echo esc_html($c[1]); ?></span></div>
-          <?php else: ?>
-          <div class="acard car-acard"><b><?php echo esc_html($c[0]); ?></b><div class="w"><?php echo esc_html($c[1]); ?></div><p><?php echo esc_html($c[2]); ?></p></div>
-          <?php endif; ?>
-        </div>
-        <?php endforeach; ?>
-      </div></div>
-      <?php echo $arrows; ?>
-      <div class="car-dots"></div>
-    </div>
-  </div>
-  <?php if ($u = home_f('home_metodo_btn_url', '/mentoria/')): ?><div class="wrap center" style="margin-top:var(--s8)"><a href="<?php echo esc_url($u); ?>" class="btn btn-oro btn-lg"><?php echo esc_html(home_f('home_metodo_btn_text')); ?></a></div><?php endif; ?>
 </section>
 <?php endif; ?>
 

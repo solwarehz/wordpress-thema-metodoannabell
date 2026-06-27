@@ -208,6 +208,32 @@ body.lb-open{overflow:hidden}
 .home-page .acard .w{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--oro-claro);margin:6px 0}
 .home-page .acard p{font-size:14px}
 
+/* ===== ⑩ El Método — foto grande difuminada (izq) + tarjetas (carrusel) ===== */
+.home-metodo{position:relative;overflow:hidden;background:var(--negro)}
+.home-metodo .m-photo{position:absolute;left:0;top:0;bottom:0;width:40%;min-width:320px;z-index:1}
+.home-metodo .m-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+.home-metodo .m-photo .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 58% 32%,rgba(212,175,55,.18),transparent 55%),linear-gradient(135deg,#222,#0b0b0b);color:var(--gris-tenue);text-transform:uppercase;letter-spacing:1.5px;font-size:12px;text-align:center;padding:12px}
+/* Difuminado: borde derecho hacia el negro + suave arriba/abajo (sin marco sólido) */
+.home-metodo .m-photo::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg, transparent 38%, rgba(10,10,10,.45) 66%, rgba(10,10,10,.85) 88%, var(--negro) 99%),
+  linear-gradient(180deg, var(--negro), transparent 15%, transparent 85%, var(--negro))}
+.home-metodo .m-body{position:relative;z-index:2;max-width:var(--content);margin:0 auto;padding:var(--s12) var(--s3);padding-left:37%}
+.home-metodo h2{margin-top:var(--s1)}
+.home-metodo .lead{margin-top:var(--s3);max-width:52ch}
+.home-metodo .m-cards{margin-top:var(--s6)}
+.home-metodo .mcard{display:flex;flex-direction:column;height:100%;min-height:290px;background:linear-gradient(180deg,rgba(28,28,28,.92),rgba(16,16,16,.92));border:1px solid rgba(212,175,55,.18);border-radius:16px;padding:28px 22px;box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.home-metodo .mcard .l{font-family:var(--font-display);font-size:52px;line-height:1;color:var(--oro)}
+.home-metodo .mcard .w{font-weight:700;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:var(--oro-claro);margin:12px 0 16px}
+.home-metodo .mcard .ic{width:36px;height:36px;color:var(--oro);margin-bottom:16px}
+.home-metodo .mcard .ic svg{width:100%;height:100%;display:block}
+.home-metodo .mcard p{font-size:15px;color:var(--gris);line-height:1.55;margin-top:auto;max-width:none}
+.home-metodo .metodo-cta{margin-top:var(--s6)}
+@media(max-width:900px){
+  .home-metodo .m-photo{position:relative;width:100%;min-width:0;height:340px}
+  .home-metodo .m-photo::after{background:linear-gradient(180deg,transparent 45%,rgba(10,10,10,.7) 80%,var(--negro))}
+  .home-metodo .m-body{padding:0 var(--s3) var(--s8);padding-left:var(--s3);margin-top:-40px}
+}
+
 /* ===== Reconocimientos ===== */
 .home-page .recon{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s3)}
 .home-page .rcard{background:var(--carbon);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:var(--s4);text-align:center}
