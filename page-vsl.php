@@ -66,19 +66,20 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
   </div>
 </header>
 
+<?php if ($live = vsl_f('live_badge_text', 'Mentoría 1:1 · ¡EN VIVO!')): ?>
+<a href="#postular" class="vsl-live" aria-label="<?php echo esc_attr($live); ?>"><span class="live-dot"></span><?php echo esc_html($live); ?></a>
+<?php endif; ?>
+
 <!-- HERO -->
 <section class="vsl-hero">
   <div class="wrap">
     <div class="hero-head">
-      <span class="eyebrow"><?php echo esc_html(vsl_f('hero_eyebrow', 'Mentoría 1:1 · De autoempleado a empresario')); ?></span>
       <h1><?php echo wp_kses_post(vsl_f('hero_title', 'Tu negocio crece,<br>pero <span class="gold">todo sigue dependiendo de ti.</span>')); ?></h1>
-      <p class="lead mxa"><?php echo wp_kses_post(vsl_f('hero_subtitle', 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.')); ?></p>
     </div>
 
     <div class="hero-split">
       <div>
         <div class="video"><?php echo vsl_video_embed(vsl_f('video_url', '')); ?></div>
-        <?php if ($vcap = vsl_f('video_cap', '')): ?><p class="video-cap"><?php echo esc_html($vcap); ?></p><?php endif; ?>
       </div>
 
       <aside class="offer">
@@ -102,6 +103,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
         <p class="micro"><?php echo esc_html(vsl_f('offer_micro', '⚡ Solo 2 cupos por nivel cada mes · Sin compromiso al postular')); ?></p>
       </aside>
     </div>
+    <p class="lead mxa hero-text"><?php echo wp_kses_post(vsl_f('hero_subtitle', 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.')); ?></p>
   </div>
 </section>
 
