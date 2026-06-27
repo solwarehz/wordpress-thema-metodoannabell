@@ -593,7 +593,7 @@ function annabell_customize_register_whatsapp(WP_Customize_Manager $wpc): void {
 
     $add('show_wa_float', '👁 Mostrar botón flotante',          true,  'checkbox');
     $add('wa_number',     'Número WhatsApp (sin + ni espacios)', '51XXXXXXXXX');
-    $add('wa_message',    'Mensaje pre-escrito',                 'Hola Annabell, vi tu mentoría y quiero saber más 👋', 'textarea');
+    $add('wa_message',    'Mensaje pre-escrito (el 👋 se agrega automáticamente)', 'Hola Annabell, vi tu mentoría y quiero saber más', 'textarea');
     $add('wa_tooltip',    'Texto del tooltip',                   '¿Tienes dudas? Escríbeme');
 }
 add_action('customize_register', 'annabell_customize_register_whatsapp');
@@ -607,7 +607,11 @@ function annabell_whatsapp_float(): void {
     $num = preg_replace('/[^0-9]/', '', $raw);
     // No mostrar si el número es el placeholder o es inválido
     if (!$num || stripos($raw, 'x') !== false || strlen($num) < 8) return;
-    $msg = rawurlencode((string) get_theme_mod('wa_message', 'Hola Annabell, vi tu mentoría y quiero saber más 👋'));
+    // Mensaje robusto ante emojis corruptos: se limpia el valor guardado (quita bytes
+    // inválidos y el 👋 viejo/dañado) y se reañade el 👋 desde el PHP (UTF-8 correcto).
+    $txt = wp_check_invalid_utf8((string) get_theme_mod('wa_message', 'Hola Annabell, vi tu mentoría y quiero saber más'), true);
+    $txt = trim(str_replace(['👋', "\u{FFFD}"], '', $txt));
+    $msg = rawurlencode($txt . ' 👋');
     $tip = esc_attr((string) get_theme_mod('wa_tooltip', '¿Tienes dudas? Escríbeme'));
     ?>
 <style>.wa-float{position:fixed;right:20px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.35);z-index:900;transition:transform .2s}.wa-float:hover{transform:scale(1.08)}.wa-float svg{width:32px;height:32px;fill:#fff}@media(max-width:600px){.wa-float{width:52px;height:52px;right:16px;bottom:16px}.wa-float svg{width:28px;height:28px}}</style>
