@@ -122,10 +122,17 @@ body.lb-open{overflow:hidden}
 .home-hero .hero-cards .car-dots{margin-top:var(--s3)}
 .home-hero .hcard{display:flex;flex-direction:column;gap:8px;padding:8px 20px;height:100%;border-left:1px solid rgba(212,175,55,.10)}
 .home-hero .hero-cards .car-item:first-child .hcard{border-left:0}
-.home-hero .hcard .ico{width:34px;height:34px;color:var(--oro)}
+.home-hero .hcard .ico{width:40px;height:40px;color:var(--oro)}
 .home-hero .hcard .ico svg{width:100%;height:100%;display:block}
 .home-hero .hcard h3{font-size:clamp(17px,1.25vw,19px);font-weight:700;color:var(--oro-claro)}
 .home-hero .hcard p{font-size:clamp(16px,1.05vw,18px);color:var(--gris);line-height:1.6;max-width:none}
+/* Vista celular: texto base mín. 18px (escala desde ahí) + íconos más grandes */
+@media(max-width:700px){
+  .home-hero .lead{font-size:20px}
+  .home-hero .hcard h3{font-size:19px}
+  .home-hero .hcard p{font-size:18px}
+  .home-hero .hcard .ico{width:48px;height:48px}
+}
 
 /* ③ Historia — tarjetas numeradas con foto (carrusel) */
 .home-page .historia-cards .tcard{display:flex;flex-direction:column;height:100%;text-align:center}
