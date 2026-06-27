@@ -173,7 +173,8 @@ $arrows =
 <!-- CONECTA (redes) -->
 <section class="section carbon" id="conecta">
   <div class="wrap center">
-    <span class="eyebrow">Conecta</span>
+    <span class="eyebrow"><?php echo wp_kses_post(home_f('home_redes_eyebrow')); ?></span>
+    <?php if ($ri = home_img('home_redes_image')): ?><div class="conecta-img"><img src="<?php echo $ri; ?>" alt="" loading="lazy"></div><?php endif; ?>
     <h2><?php echo esc_html(home_f('home_redes_title')); ?></h2>
     <div class="social" style="margin-top:var(--s6)">
       <?php for ($n = 1; $n <= 8; $n++): $u = home_f("home_red{$n}_url"); $l = home_f("home_red{$n}_label"); if (!$u && !$l) continue; ?>

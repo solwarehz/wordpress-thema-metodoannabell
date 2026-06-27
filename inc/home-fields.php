@@ -93,6 +93,7 @@ function home_defaults(): array {
         'home_recon1_title' => 'Mentora reconocida', 'home_recon1_text' => 'Programa «Oportunidades para Todas» · Ministerio de la Mujer',
         'home_recon2_title' => 'Ponente', 'home_recon2_text' => 'Eventos de odontología',
         'home_recon3_title' => 'Podcaster', 'home_recon3_text' => 'Raíz Firme',
+        'home_redes_eyebrow' => 'Conecta',
         'home_redes_title' => 'Sígueme',
         'home_red1_label' => 'Clínica Goldent', 'home_red1_url' => 'https://www.facebook.com/Dentistasgoldent/',
         'home_red2_label' => 'Raíz Firme', 'home_red2_url' => 'https://www.youtube.com/@RAIZFIRME_1',
@@ -456,6 +457,8 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     // CONECTA (redes — modular, detecta el logo por la URL)
     $sec('home_redes', '⑨ Conecta (redes)', 90);
     $add('show_home_redes','home_redes', '👁 Mostrar sección', '1', 'checkbox');
+    $add('home_redes_eyebrow','home_redes', 'Etiqueta', '', 'html');
+    $img('home_redes_image','home_redes', 'Imagen (centrada · sin borde)');
     $add('home_redes_title','home_redes', 'Título');
     for ($n = 1; $n <= 8; $n++) {
         $add("home_red{$n}_label",'home_redes', "Red {$n} — Texto");
