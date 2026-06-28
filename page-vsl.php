@@ -75,6 +75,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
   <div class="wrap">
     <div class="hero-head">
       <h1><?php echo wp_kses_post(vsl_f('hero_title', 'Tu negocio crece,<br>pero <span class="gold">todo sigue dependiendo de ti.</span>')); ?></h1>
+      <p class="lead mxa"><?php echo wp_kses_post(vsl_f('hero_subtitle', 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.')); ?></p>
     </div>
 
     <div class="hero-split">
@@ -82,28 +83,10 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
         <div class="video"><?php echo vsl_video_embed(vsl_f('video_url', 'https://vimeo.com/1204182154?share=copy&fl=sv&fe=ci')); ?></div>
       </div>
 
-      <aside class="offer">
-        <h3><?php echo esc_html(vsl_f('offer_title', 'Postula a un cupo de mentoría')); ?></h3>
-        <p style="font-size:15px"><?php echo esc_html(vsl_f('offer_intro', 'Acompañamiento 1:1 personalizado según la etapa real de tu negocio.')); ?></p>
-        <ul class="ol">
-          <?php
-          $offer_def = [
-            'Sesiones 1:1 con Annabell, no videos pregrabados',
-            'Plan por fases al ritmo de tu ejecución',
-            'Diagnóstico de tu negocio antes de empezar',
-            'Línea especializada para sector salud',
-          ];
-          for ($n = 1; $n <= 4; $n++):
-            $it = vsl_f("offer_item_$n", $offer_def[$n-1]); if (!$it) continue; ?>
-          <li><?php echo $check; ?> <?php echo esc_html($it); ?></li>
-          <?php endfor; ?>
-        </ul>
-        <div class="price-note"><?php echo wp_kses_post(vsl_f('offer_price_note', 'El nivel y la inversión se definen contigo tras postular · <b>Precio de lanzamiento</b>')); ?></div>
-        <a href="#postular" class="btn btn-oro btn-block"><?php echo esc_html(vsl_f('offer_btn', 'Quiero postular a un cupo →')); ?></a>
-        <p class="micro"><?php echo esc_html(vsl_f('offer_micro', '⚡ Solo 2 cupos por nivel cada mes · Sin compromiso al postular')); ?></p>
-      </aside>
+      <div class="hero-cta">
+        <a href="#postular" class="btn btn-oro btn-lg"><?php echo esc_html(vsl_f('offer_btn', 'Quiero postular a un cupo →')); ?></a>
+      </div>
     </div>
-    <p class="lead mxa hero-text"><?php echo wp_kses_post(vsl_f('hero_subtitle', 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.')); ?></p>
   </div>
 </section>
 

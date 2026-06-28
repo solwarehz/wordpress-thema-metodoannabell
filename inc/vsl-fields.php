@@ -35,13 +35,44 @@ function vsl_vimeo_id(string $url): string {
     return '';
 }
 
-/* Helper: embed del video (Vimeo) o placeholder con botón play */
-function vsl_video_embed(string $url): string {
-    $id = vsl_vimeo_id($url);
-    if ($id) {
-        $src = "https://player.vimeo.com/video/{$id}?title=0&byline=0&portrait=0";
-        return '<iframe src="' . esc_url($src) . '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Video VSL"></iframe>';
+/* Póster (primer fotograma) de un video de Vimeo vía oEmbed. Cacheado 1 día.
+   Vimeo no expone el thumbnail por URL directa (como YouTube), hay que pedirlo a su API. */
+function vsl_vimeo_poster(string $vid): string {
+    if (!$vid) return '';
+    $key = 'vsl_vimeo_poster_' . $vid;
+    $cached = get_transient($key);
+    if ($cached !== false) return (string) $cached;
+    $poster = '';
+    $resp = wp_remote_get('https://vimeo.com/api/oembed.json?url=' . rawurlencode('https://vimeo.com/' . $vid) . '&width=1280', ['timeout' => 6]);
+    if (!is_wp_error($resp) && wp_remote_retrieve_response_code($resp) === 200) {
+        $data = json_decode(wp_remote_retrieve_body($resp), true);
+        if (!empty($data['thumbnail_url'])) $poster = $data['thumbnail_url'];
     }
+    set_transient($key, $poster, DAY_IN_SECONDS);
+    return $poster;
+}
+
+/* Helper: video con el mismo trato que YouTube → póster + play que abre popup
+   a pantalla completa (sirve para Vimeo y YouTube). */
+function vsl_video_embed(string $url): string {
+    $play = '<span class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></span>';
+    $vid  = vsl_vimeo_id($url);
+
+    // Vimeo (cuenta gratuita NO permite embeber) → póster (vía API) + abrir el video en
+    // Vimeo en una pestaña nueva con la URL de compartir.
+    if ($vid) {
+        $poster = vsl_vimeo_poster($vid);
+        $style  = $poster ? ' style="background-image:url(' . esc_url($poster) . ')"' : '';
+        return '<a href="' . esc_url($url) . '" target="_blank" rel="noopener" class="video-play' . ($poster ? ' has-poster' : '') . '"' . $style . ' aria-label="Ver video">' . $play . '</a>';
+    }
+
+    // YouTube → póster + popup embebido a pantalla completa (vsl-video.js).
+    if (preg_match('~(?:youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/)|youtu\.be/)([A-Za-z0-9_-]{11})~', $url, $m)) {
+        $embed  = "https://www.youtube-nocookie.com/embed/{$m[1]}?autoplay=1&rel=0&modestbranding=1";
+        $poster = "https://img.youtube.com/vi/{$m[1]}/maxresdefault.jpg";
+        return '<button type="button" class="video-play has-poster" data-embed="' . esc_attr($embed) . '" style="background-image:url(' . esc_url($poster) . ')" aria-label="Reproducir video">' . $play . '</button>';
+    }
+
     return '<div class="video-ph"><div class="play"><svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"/></svg></div></div>';
 }
 
@@ -65,8 +96,11 @@ add_action('acf/init', function () {
     $f('hero_eyebrow',  'Etiqueta superior');
     $f('hero_title',    'Título (permite <span class="gold">…</span>)', 'textarea');
     $f('hero_subtitle', 'Subtítulo', 'textarea');
-    $f('video_url',     'URL del video (Vimeo)', 'url', 'Pega el link de Vimeo. Vacío = placeholder con botón play.');
+    $f('video_url',     'URL del video (Vimeo o YouTube)', 'url', 'Pega el link. Recomendado: YouTube oculto. Vacío = placeholder con botón play.');
     $f('video_cap',     'Texto bajo el video');
+    $f('hero_video_btn_text', 'Botón bajo el video — Texto');
+    $f('hero_video_btn_sub',  'Botón bajo el video — Subtexto');
+    $f('live_badge_text',     'Aviso flotante (diferenciador)', 'text', 'Ej: Mentoría 1:1 · ¡EN VIVO! — Vacío = no se muestra.');
 
     // CAJA DE OFERTA (hero)
     $tab('② Caja de oferta');
