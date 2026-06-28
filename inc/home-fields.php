@@ -374,8 +374,10 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
 
     $wpc->add_panel('home_panel', ['title' => '🏠 Página Principal (Autoridad)', 'priority' => 22]);
 
-    $sec = function (string $id, string $title, int $prio) use ($wpc) {
-        $wpc->add_section($id, ['title' => $title, 'panel' => 'home_panel', 'priority' => $prio]);
+    $sec = function (string $id, string $title, int $prio, string $desc = '') use ($wpc) {
+        $args = ['title' => $title, 'panel' => 'home_panel', 'priority' => $prio];
+        if ($desc) $args['description'] = $desc;
+        $wpc->add_section($id, $args);
     };
     $add = function (string $id, string $section, string $label, string $default = '', string $type = 'text') use ($wpc) {
         $D = home_defaults();           // fuente única: el default del editor = el del front-end
@@ -458,7 +460,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     }
 
     // HISTORIA (incluye las cifras)
-    $sec('home_historia', '③ Su historia', 30);
+    $sec('home_historia', '③ Su historia', 30, 'Enlace para el menú: <strong>#historia</strong>');
     $add('show_home_historia','home_historia', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_historia_eyebrow','home_historia', 'Etiqueta', '', 'html');
     $add('home_historia_title','home_historia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -477,7 +479,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     }
 
     // FOTOGRAFÍA
-    $sec('home_fotografia', '④ Fotografía', 40);
+    $sec('home_fotografia', '④ Fotografía', 40, 'Enlace para el menú: <strong>#fotografia</strong>');
     $add('show_home_fotografia','home_fotografia', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_foto_eyebrow','home_fotografia', 'Etiqueta', '', 'html');
     $add('home_foto_title','home_fotografia', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -487,7 +489,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $carousel('home_fotografia', 'home_foto');
 
     // GOLDENT
-    $sec('home_goldent', '⑤ Clínica Goldent', 50);
+    $sec('home_goldent', '⑤ Clínica Goldent', 50, 'Enlace para el menú: <strong>#goldent</strong>');
     $add('show_home_goldent','home_goldent', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_goldent_eyebrow','home_goldent', 'Etiqueta', '', 'html');
     $add('home_goldent_title','home_goldent', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -497,7 +499,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $carousel('home_goldent', 'home_goldent');
 
     // PONENCIAS
-    $sec('home_ponencias', '⑥ Ponencias', 60);
+    $sec('home_ponencias', '⑥ Ponencias', 60, 'Enlace para el menú: <strong>#ponencias</strong>');
     $add('show_home_ponencias','home_ponencias', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_ponencias_eyebrow','home_ponencias', 'Etiqueta', '', 'html');
     $add('home_ponencias_title','home_ponencias', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -505,7 +507,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $carousel('home_ponencias', 'home_ponencias');
 
     // PODCAST
-    $sec('home_podcast', '⑦ Podcast Raíz Firme', 70);
+    $sec('home_podcast', '⑦ Podcast Raíz Firme', 70, 'Enlace para el menú: <strong>#podcast</strong>');
     $add('show_home_podcast','home_podcast', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_podcast_eyebrow','home_podcast', 'Etiqueta', '', 'html');
     $add('home_podcast_title','home_podcast', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -515,7 +517,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $carousel('home_podcast', 'home_podcast');
 
     // RECONOCIMIENTOS
-    $sec('home_recon', '⑧ Reconocimientos', 80);
+    $sec('home_recon', '⑧ Reconocimientos', 80, 'Enlace para el menú: <strong>#reconocimientos</strong>');
     $add('show_home_recon','home_recon', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_recon_eyebrow','home_recon', 'Etiqueta', '', 'html');
     $add('home_recon_title','home_recon', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
@@ -523,7 +525,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     $carousel('home_recon', 'home_recon');
 
     // CONECTA (redes — modular, detecta el logo por la URL)
-    $sec('home_redes', '⑨ Conecta (redes)', 90);
+    $sec('home_redes', '⑨ Conecta (redes)', 90, 'Enlace para el menú: <strong>#conecta</strong>');
     $add('show_home_redes','home_redes', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_redes_eyebrow','home_redes', 'Etiqueta', '', 'html');
     $img('home_redes_image','home_redes', 'Imagen (centrada · sin borde)');
@@ -534,7 +536,7 @@ add_action('customize_register', function (WP_Customize_Manager $wpc) {
     }
 
     // EL MÉTODO (cierre + CTA) — carrusel de las 8 letras
-    $sec('home_metodo', '⑩ El Método (cierre)', 100);
+    $sec('home_metodo', '⑩ El Método (cierre)', 100, 'Enlace para el menú: <strong>#metodo</strong>');
     $add('show_home_metodo','home_metodo', '👁 Mostrar sección', '1', 'checkbox');
     $add('home_metodo_eyebrow','home_metodo', 'Etiqueta', '', 'html');
     $add('home_metodo_title','home_metodo', 'Título · dorado: <span class="gold">texto</span>', '', 'html');
