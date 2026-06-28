@@ -83,13 +83,11 @@ function vsl_defaults(): array {
     if ($d !== null) return $d;
     return $d = [
         'hero_eyebrow_badge' => 'Apertura de cupos 2026',
-        'live_badge_text'    => 'Mentoría 1:1 · ¡EN VIVO!',
+        'topbar_btn_text'    => 'Postular',
+        'topbar_btn_url'     => '#postular',
         'hero_title'    => 'Tu negocio crece,<br>pero <span class="gold">todo sigue dependiendo de ti.</span>',
         'hero_subtitle' => 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.',
         'video_url'     => 'https://vimeo.com/1204182154?share=copy&fl=sv&fe=ci',
-        'offer_btn'     => 'Quiero postular a un cupo →',
-        'proof_text'  => '<b>Emprendedores y profesionales</b> ya están escalando con el método',
-        'proof_text2' => 'Resultados reales, empresas reales',
         'problema_eyebrow' => '¿Te suena familiar?',
         'problema_title'   => 'No tienes un problema de esfuerzo.<br>Tienes un problema de <span class="gold">estructura.</span>',
         'problema_p1' => 'Llevas años sosteniendo tu negocio con tus propias manos. Si tú no estás, no se vende, no se decide, no avanza. Contrataste gente y terminaste haciendo lo mismo. Creciste en facturación, pero <span class="hl">perdiste tu tiempo, tu calma y tu vida personal</span> en el camino.',
@@ -106,8 +104,7 @@ function vsl_defaults(): array {
         'fase_3_title' => 'Aprende a delegar', 'fase_3_i1' => 'Formas a tu equipo con criterio', 'fase_3_i2' => 'Sistema de delegación que sí funciona', 'fase_3_i3' => 'Dejas de ser el cuello de botella', 'fase_3_res' => 'recuperas tu tiempo.',
         'fase_4_title' => 'Lidera personas', 'fase_4_i1' => 'Liderazgo para alinear al equipo', 'fase_4_i2' => 'Inspiras, motivas y das dirección', 'fase_4_i3' => 'Tu visión la ejecutan otros', 'fase_4_res' => 'lideras, ya no operas.',
         'fase_5_title' => 'Un sistema que mejora solo', 'fase_5_i1' => 'Indicadores y mejora continua', 'fase_5_i2' => 'Optimización constante de la operación', 'fase_5_i3' => 'Crece incluso cuando tú no estás', 'fase_5_res' => 'una empresa, no un autoempleo.',
-        'cta_band_title' => 'Tu negocio ya factura.<br>Es hora de que <span class="gold">funcione sin ti.</span>',
-        'cta_band_text'  => 'El primer paso es postular. Sin compromiso: solo conocemos tu caso.',
+        'fases_card_title' => '¿En qué fase está tu negocio hoy?', 'fases_card_text' => 'Lo descubrimos juntos en el diagnóstico.', 'fases_card_btn' => 'Quiero postular →',
         'proceso_eyebrow' => 'El proceso',
         'proceso_title'   => 'Cómo trabajamos juntos',
         'proceso_intro'   => 'Un camino claro, sin sorpresas. Sabes exactamente qué pasa en cada paso.',
@@ -126,8 +123,11 @@ function vsl_defaults(): array {
         'testi_1_q' => 'En dos meses dejé de estar en cada decisión. Mi equipo resuelve sin mí y por fin tomé vacaciones sin que el negocio se cayera.', 'testi_1_name' => 'María G.', 'testi_1_role' => 'Clínica dental · Lima',
         'testi_2_q' => 'Pasé de apagar incendios todo el día a tener procesos. Facturo 40% más trabajando menos horas. El cambio fue de estructura, no de esfuerzo.', 'testi_2_name' => 'Carlos T.', 'testi_2_role' => 'Retail · 8 empleados',
         'testi_3_q' => 'Annabell no te da teoría: te hace ejecutar. Cada sesión salí con acciones claras. Hoy mi negocio funciona como empresa.', 'testi_3_name' => 'Laura M.', 'testi_3_role' => 'Servicios · Arequipa',
+        'testi_1_stars' => '5', 'testi_2_stars' => '5', 'testi_3_stars' => '5',
         'pq_title' => '¿Es esto para ti?',
         'pq_intro' => 'Sé honesto contigo: esta mentoría funciona para quien ejecuta, no para quien solo se informa.',
+        'pq_si_title' => '✓ Sí es para ti si…',
+        'pq_no_title' => '✕ No es para ti si…',
         'pq_si_1' => 'Ya vendes y facturas, pero el negocio depende de ti.',
         'pq_si_2' => 'Trabajas muchas horas y aun así no avanzas como quieres.',
         'pq_si_3' => 'Quieres delegar, ordenar y escalar sin perder tu vida.',
@@ -188,28 +188,16 @@ add_action('acf/init', function () {
 
     // HERO
     $tab('① Hero');
+    $f('hero_eyebrow_badge', 'Barra superior — Mensaje (badge)');
+    $f('topbar_btn_text',    'Barra superior — Texto del botón');
+    $f('topbar_btn_url',     'URL de los botones (la usan TODOS los botones del VSL)', 'text', 'Una sola URL para todos los botones de la página. Por defecto #postular (el formulario). También admite una URL https:// (ej. WhatsApp).');
     $f('hero_eyebrow',  'Etiqueta superior');
     $f('hero_title',    'Título (permite <span class="gold">…</span>)', 'textarea');
     $f('hero_subtitle', 'Subtítulo', 'textarea');
     $f('video_url',     'URL del video (Vimeo o YouTube)', 'url', 'Pega el link. Recomendado: YouTube oculto. Vacío = placeholder con botón play.');
     $f('video_cap',     'Texto bajo el video');
-    $f('hero_video_btn_text', 'Botón bajo el video — Texto');
-    $f('hero_video_btn_sub',  'Botón bajo el video — Subtexto');
+    $f('hero_video_btn_text', 'Botón bajo el video — Texto (label)', 'text', 'Vacío = el botón no se muestra.');
     $f('live_badge_text',     'Aviso flotante (diferenciador)', 'text', 'Ej: Mentoría 1:1 · ¡EN VIVO! — Vacío = no se muestra.');
-
-    // CAJA DE OFERTA (hero)
-    $tab('② Caja de oferta');
-    $f('offer_title', 'Título de la caja');
-    $f('offer_intro', 'Intro', 'textarea');
-    for ($n = 1; $n <= 4; $n++) $f("offer_item_$n", "Ítem $n (con ✓)");
-    $f('offer_price_note', 'Nota de precio (caja)');
-    $f('offer_btn',        'Texto del botón');
-    $f('offer_micro',      'Microcopy bajo el botón');
-
-    // PRUEBA SOCIAL
-    $tab('③ Prueba social');
-    $f('proof_text',  'Texto izquierda (permite <b>)');
-    $f('proof_text2', 'Texto derecha');
 
     // PROBLEMA
     $tab('④ Problema');
@@ -237,6 +225,9 @@ add_action('acf/init', function () {
         $f("fase_{$n}_i3",    "Fase $n — Ítem 3");
         $f("fase_{$n}_res",   "Fase $n — Resultado");
     }
+    $f('fases_card_title', 'Card final — Título');
+    $f('fases_card_text',  'Card final — Texto');
+    $f('fases_card_btn',   'Card final — Texto del botón');
 
     // PROCESO
     $tab('⑦ Cómo funciona');
@@ -259,13 +250,15 @@ add_action('acf/init', function () {
     $tab('⑨ Testimonios');
     $f('testi_eyebrow', 'Etiqueta');
     $f('testi_title',   'Título');
-    for ($n = 1; $n <= 3; $n++) { $f("testi_{$n}_q", "Testimonio $n — Texto", 'textarea'); $f("testi_{$n}_name", "Testimonio $n — Nombre"); $f("testi_{$n}_role", "Testimonio $n — Cargo"); }
+    for ($n = 1; $n <= 3; $n++) { $f("testi_{$n}_q", "Testimonio $n — Texto", 'textarea'); $f("testi_{$n}_name", "Testimonio $n — Nombre"); $f("testi_{$n}_role", "Testimonio $n — Cargo"); $f("testi_{$n}_photo", "Testimonio $n — Foto", 'image'); $f("testi_{$n}_stars", "Testimonio $n — Estrellas (0 a 5)", 'number'); }
 
     // PARA QUIÉN
     $tab('⑩ Para quién');
     $f('pq_title', 'Título');
     $f('pq_intro', 'Intro', 'textarea');
+    $f('pq_si_title', 'Card SÍ — Título');
     for ($n = 1; $n <= 4; $n++) $f("pq_si_$n", "SÍ — Ítem $n");
+    $f('pq_no_title', 'Card NO — Título');
     for ($n = 1; $n <= 4; $n++) $f("pq_no_$n", "NO — Ítem $n");
 
     // OBJECIONES

@@ -44,6 +44,17 @@ $faq_def = [
     5 => ['¿Qué pasa después de postular?', 'Te escribimos por WhatsApp con unas preguntas para conocer tu negocio y, si hay encaje, agendamos.'],
 ];
 $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1';
+
+// Sombreado alternado de secciones: par = carbon, impar = negro.
+// Usa un contador para que al quitar secciones la alternancia se re-balancee sola.
+$GLOBALS['vsl_sec'] = 0;
+if (!function_exists('vsl_section')) {
+    function vsl_section(string $extra = ''): string {
+        $n = ++$GLOBALS['vsl_sec'];
+        $cls = 'section' . ($n % 2 === 0 ? ' carbon' : '');
+        return $cls . ($extra !== '' ? ' ' . $extra : '');
+    }
+}
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -62,18 +73,19 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
   <div class="wrap">
     <?php echo annabell_logo_html(false, 'vsl-logo'); ?>
     <span class="promo"><span class="badge dot"><?php echo esc_html(vsl_f('hero_eyebrow_badge', 'Apertura de cupos 2026')); ?></span></span>
-    <a href="#postular" class="btn btn-oro btn-sm">Postular</a>
+    <a href="<?php echo esc_url(vsl_f('topbar_btn_url', '#postular')); ?>" class="btn btn-oro btn-sm"><?php echo esc_html(vsl_f('topbar_btn_text', 'Postular')); ?></a>
   </div>
 </header>
 
-<?php if ($live = vsl_f('live_badge_text', 'Mentoría 1:1 · ¡EN VIVO!')): ?>
-<a href="#postular" class="vsl-live" aria-label="<?php echo esc_attr($live); ?>"><span class="live-dot"></span><?php echo esc_html($live); ?></a>
+<?php if ($live = vsl_f('live_badge_text', '')): ?>
+<a href="<?php echo esc_url(vsl_f('topbar_btn_url', '#postular')); ?>" class="vsl-live" aria-label="<?php echo esc_attr($live); ?>"><span class="live-dot"></span><?php echo esc_html($live); ?></a>
 <?php endif; ?>
 
 <!-- HERO -->
 <section class="vsl-hero">
   <div class="wrap">
     <div class="hero-head">
+      <?php if ($he = vsl_f('hero_eyebrow', '')): ?><span class="eyebrow"><?php echo esc_html($he); ?></span><?php endif; ?>
       <h1><?php echo wp_kses_post(vsl_f('hero_title', 'Tu negocio crece,<br>pero <span class="gold">todo sigue dependiendo de ti.</span>')); ?></h1>
       <p class="lead mxa"><?php echo wp_kses_post(vsl_f('hero_subtitle', 'Trabajas más, te esfuerzas más, facturas más… y aun así, si te detienes, <span class="hl">todo se detiene.</span> El Método Annabell te da la estructura para que tu empresa funcione sin ti.')); ?></p>
     </div>
@@ -81,26 +93,21 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
     <div class="hero-split">
       <div>
         <div class="video"><?php echo vsl_video_embed(vsl_f('video_url', 'https://vimeo.com/1204182154?share=copy&fl=sv&fe=ci')); ?></div>
-      </div>
-
-      <div class="hero-cta">
-        <a href="#postular" class="btn btn-oro btn-lg"><?php echo esc_html(vsl_f('offer_btn', 'Quiero postular a un cupo →')); ?></a>
+        <?php if ($vcap = vsl_f('video_cap', '')): ?>
+        <p style="text-align:center;color:var(--gris-tenue);font-size:14px;margin-top:14px"><?php echo wp_kses_post($vcap); ?></p>
+        <?php endif; ?>
+        <?php if ($vbt = vsl_f('hero_video_btn_text', '')): ?>
+        <div style="text-align:center;margin-top:18px">
+          <a href="<?php echo esc_url(vsl_f('topbar_btn_url', '#postular')); ?>" class="btn btn-oro btn-lg"><?php echo esc_html($vbt); ?></a>
+        </div>
+        <?php endif; ?>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRUEBA SOCIAL -->
-<div class="vsl-proof">
-  <div class="wrap">
-    <div class="avatars"><span>M</span><span>C</span><span>L</span><span>J</span><span>+</span></div>
-    <div class="txt"><?php echo wp_kses_post(vsl_f('proof_text', '<b>Emprendedores y profesionales</b> ya están escalando con el método')); ?></div>
-    <div class="txt"><span class="stars">★★★★★</span> &nbsp;<?php echo esc_html(vsl_f('proof_text2', 'Resultados reales, empresas reales')); ?></div>
-  </div>
-</div>
-
 <!-- PROBLEMA -->
-<section class="section">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap narrow center mxa">
     <span class="eyebrow"><?php echo esc_html(vsl_f('problema_eyebrow', '¿Te suena familiar?')); ?></span>
     <h2><?php echo wp_kses_post(vsl_f('problema_title', 'No tienes un problema de esfuerzo.<br>Tienes un problema de <span class="gold">estructura.</span>')); ?></h2>
@@ -112,7 +119,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- EL GIRO -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap narrow center mxa">
     <h2><?php echo wp_kses_post(vsl_f('giro_title', 'Tener un negocio <span style="color:var(--gris-tenue)">no es lo mismo</span> que construir una <span class="gold">empresa.</span>')); ?></h2>
     <p class="lead mxa" style="margin:24px auto 48px"><?php echo esc_html(vsl_f('giro_text', 'Un negocio depende de su dueño. Una empresa funciona con estructura, procesos y un equipo que ejecuta sin que tú estés encima. El Método Annabell es la ruta para hacer ese salto.')); ?></p>
@@ -121,7 +128,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- FASES -->
-<section class="section">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center">
     <span class="eyebrow"><?php echo esc_html(vsl_f('fases_eyebrow', 'El método · paso a paso')); ?></span>
     <h2><?php echo wp_kses_post(vsl_f('fases_title', 'Las 5 fases para convertir tu<br>emprendimiento en una empresa')); ?></h2>
@@ -141,25 +148,16 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
       </div>
       <?php endforeach; ?>
       <div class="fase" style="justify-content:center;align-items:center;text-align:center;border-style:dashed">
-        <p style="color:var(--blanco);font-weight:700;font-size:18px;margin-bottom:14px">¿En qué fase está tu negocio hoy?</p>
-        <p style="font-size:15px;margin-bottom:18px">Lo descubrimos juntos en el diagnóstico.</p>
-        <a href="#postular" class="btn btn-oro">Quiero postular →</a>
+        <p style="color:var(--blanco);font-weight:700;font-size:18px;margin-bottom:14px"><?php echo wp_kses_post(vsl_f('fases_card_title', '¿En qué fase está tu negocio hoy?')); ?></p>
+        <p style="font-size:15px;margin-bottom:18px"><?php echo wp_kses_post(vsl_f('fases_card_text', 'Lo descubrimos juntos en el diagnóstico.')); ?></p>
+        <a href="<?php echo esc_url(vsl_f('topbar_btn_url', '#postular')); ?>" class="btn btn-oro"><?php echo esc_html(vsl_f('fases_card_btn', 'Quiero postular →')); ?></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA BAND -->
-<section class="vsl-cta-band">
-  <div class="wrap center">
-    <h2><?php echo wp_kses_post(vsl_f('cta_band_title', 'Tu negocio ya factura.<br>Es hora de que <span class="gold">funcione sin ti.</span>')); ?></h2>
-    <p class="lead mxa"><?php echo esc_html(vsl_f('cta_band_text', 'El primer paso es postular. Sin compromiso: solo conocemos tu caso.')); ?></p>
-    <a href="#postular" class="btn btn-oro btn-lg">Quiero postular a un cupo</a>
-  </div>
-</section>
-
 <!-- CÓMO FUNCIONA -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center">
     <span class="eyebrow"><?php echo esc_html(vsl_f('proceso_eyebrow', 'El proceso')); ?></span>
     <h2><?php echo esc_html(vsl_f('proceso_title', 'Cómo trabajamos juntos')); ?></h2>
@@ -175,7 +173,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- AUTORIDAD -->
-<section class="section">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap">
     <div class="autoridad">
       <div class="foto">
@@ -196,7 +194,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- TESTIMONIOS -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center">
     <span class="eyebrow"><?php echo esc_html(vsl_f('testi_eyebrow', 'Lo que dicen')); ?></span>
     <h2><?php echo esc_html(vsl_f('testi_title', 'Empresarios reales, resultados reales')); ?></h2>
@@ -205,22 +203,32 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
     <div class="grid g3" style="margin-top:64px">
       <?php foreach ($testi_def as $n => $d):
         $q = vsl_f("testi_{$n}_q", $d[0]); $name = vsl_f("testi_{$n}_name", $d[1]); if (!$q && !$name) continue;
-        $ini = mb_strtoupper(mb_substr($name, 0, 1)); ?>
-      <div class="testi"><div class="stars">★★★★★</div><p class="q"><?php echo esc_html($q); ?></p><div class="who"><div class="av"><?php echo esc_html($ini); ?></div><div><b><?php echo esc_html($name); ?></b><span><?php echo esc_html(vsl_f("testi_{$n}_role", $d[2])); ?></span></div></div></div>
+        $ini = mb_strtoupper(mb_substr($name, 0, 1));
+        $st  = max(0, min(5, (int) vsl_f("testi_{$n}_stars", '5')));
+        $stars_html = str_repeat('★', $st) . '<span class="off">' . str_repeat('★', 5 - $st) . '</span>';
+        $photo = vsl_img("testi_{$n}_photo"); ?>
+      <div class="testi">
+        <div class="stars"><?php echo $stars_html; ?></div>
+        <p class="q"><?php echo esc_html($q); ?></p>
+        <div class="who">
+          <div class="av"><?php echo $photo ? '<img src="' . esc_url($photo) . '" alt="' . esc_attr($name) . '">' : esc_html($ini); ?></div>
+          <div><b><?php echo esc_html($name); ?></b><span><?php echo esc_html(vsl_f("testi_{$n}_role", $d[2])); ?></span></div>
+        </div>
+      </div>
       <?php endforeach; ?>
     </div>
   </div>
 </section>
 
 <!-- PARA QUIÉN -->
-<section class="section">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center"><h2><?php echo esc_html(vsl_f('pq_title', '¿Es esto para ti?')); ?></h2><div class="divisor"></div>
     <p class="lead mxa"><?php echo esc_html(vsl_f('pq_intro', 'Sé honesto contigo: esta mentoría funciona para quien ejecuta, no para quien solo se informa.')); ?></p>
   </div>
   <div class="wrap" style="margin-top:64px">
     <div class="pq">
       <div class="pq-col si">
-        <h3>✓ Sí es para ti si…</h3>
+        <h3><?php echo esc_html(vsl_f('pq_si_title', '✓ Sí es para ti si…')); ?></h3>
         <ul>
           <?php for ($n = 1; $n <= 4; $n++): $it = vsl_f("pq_si_$n", $pq_si_def[$n-1]); if (!$it) continue; ?>
           <li><?php echo $check; ?> <?php echo esc_html($it); ?></li>
@@ -228,7 +236,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
         </ul>
       </div>
       <div class="pq-col no">
-        <h3>✕ No es para ti si…</h3>
+        <h3><?php echo esc_html(vsl_f('pq_no_title', '✕ No es para ti si…')); ?></h3>
         <ul>
           <?php for ($n = 1; $n <= 4; $n++): $it = vsl_f("pq_no_$n", $pq_no_def[$n-1]); if (!$it) continue; ?>
           <li><?php echo $xmark; ?> <?php echo esc_html($it); ?></li>
@@ -240,7 +248,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- OBJECIONES -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center">
     <span class="eyebrow"><?php echo esc_html(vsl_f('obj_eyebrow', 'Sé lo que estás pensando')); ?></span>
     <h2><?php echo esc_html(vsl_f('obj_title', 'Resolvamos tus dudas ahora')); ?></h2>
@@ -255,7 +263,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- OFERTA -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap narrow center mxa">
     <span class="eyebrow"><?php echo esc_html(vsl_f('oferta_eyebrow', 'Apertura oficial de cupos')); ?></span>
     <h2><?php echo wp_kses_post(vsl_f('oferta_title', 'Acompañamiento 1:1 según el<br>nivel de tu negocio')); ?></h2>
@@ -275,7 +283,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- CTA FINAL + FORM -->
-<section class="section" id="postular">
+<section class="<?php echo vsl_section(); ?>" id="postular">
   <div class="wrap center">
     <h2><?php echo esc_html(vsl_f('form_title', 'Postula a tu cupo')); ?></h2>
     <p class="lead mxa"><?php echo esc_html(vsl_f('form_subtitle', 'Déjanos tus datos. Te contactamos por WhatsApp para conocer tu negocio y ver si el Método Annabell es para ti.')); ?></p>
@@ -288,7 +296,7 @@ $tally_default = 'https://tally.so/embed/WOQ1VP?alignLeft=1&hideTitle=1&transpar
 </section>
 
 <!-- FAQ -->
-<section class="section carbon">
+<section class="<?php echo vsl_section(); ?>">
   <div class="wrap center"><h2><?php echo esc_html(vsl_f('faq_title', 'Preguntas frecuentes')); ?></h2><div class="divisor"></div></div>
   <div class="wrap">
     <div class="faq">
