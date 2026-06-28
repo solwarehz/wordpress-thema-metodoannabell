@@ -85,7 +85,7 @@ body.lb-open{overflow:hidden}
 @media(max-width:600px){ .lb-nav{display:none} } /* móvil: navega con swipe */
 
 /* ===== NAV ===== */
-.home-nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.16)}
+.home-nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.16)}
 .admin-bar .home-nav{top:32px}
 @media screen and (max-width:782px){ .admin-bar .home-nav{top:46px} }
 .home-nav .wrap{display:flex;align-items:center;justify-content:space-between;height:80px;gap:var(--s3)}

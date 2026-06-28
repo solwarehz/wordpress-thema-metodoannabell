@@ -57,7 +57,7 @@
 .vsl .chips{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:var(--s6)}
 
 /* Top bar */
-.vsl-topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.14)}
+.vsl-topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(212,175,55,.14)}
 /* Compensa la barra de admin de WordPress (solo visible si hay sesión iniciada) */
 .admin-bar .vsl-topbar{top:32px}
 @media screen and (max-width:782px){ .admin-bar .vsl-topbar{top:46px} }
